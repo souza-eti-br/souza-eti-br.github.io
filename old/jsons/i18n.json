@@ -1,0 +1,27 @@
+{
+    "default": "pt",
+    "messages": {
+        "pt": {
+            "about": "Sobre",
+            "developed.by": "Desenvolvido por",
+            "home": "Início",
+            "language": "Português",
+            "loading": "...carregando...",
+            "welcome": "Bem-vindo!"
+        }, "es": {
+            "about": "Acerca",
+            "developed.by": "Desarrollado por",
+            "home": "Inicio",
+            "language": "Español",
+            "loading": "...cargando...",
+            "welcome": "Bienvenidos!"
+        }, "en": {
+            "about": "About",
+            "developed.by": "Developed by",
+            "home": "Home",
+            "language": "English",
+            "loading": "...loading...",
+            "welcome": "Welcome!"
+        }
+    }
+}
