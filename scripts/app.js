@@ -38,6 +38,9 @@ var i18n = {
             for (var i = 0; i < i18n.functions.length; i++) {
                 i18n.functions[i]();
             }
+            if (app.body.actualPage && app.body.actualPage.onChangeLanguage) {
+                app.body.actualPage.onChangeLanguage();
+            }
         }
     },
     getMessage: function (key, args) {
@@ -53,8 +56,8 @@ var i18n = {
             } else if (!Array.isArray(args)) {
                 args = [args];
             }
-            var message = this.messages[this.selector.value][key];
-            if (message) {
+            if (this.messages && this.messages[this.selector.value] && this.messages[this.selector.value][key]) {
+                var message = this.messages[this.selector.value][key];
                 for (var i = 0; i < args.length; i++) {
                     var argKey = "{" + i + "}";
                     while (message.indexOf(argKey) > -1) {
@@ -160,12 +163,18 @@ var app = {
         pages: [
             { name: "home", page: {
                 init: function(content) {
-                    content.innerHTML = "home page";
+                    content.innerHTML = i18n.getMessage("welcome");
+                },
+                onChangeLanguage: function(content) {
+                    app.body.content.innerHTML = i18n.getMessage("welcome");
                 }
             }},
             { name: "about", page: {
                 init: function(content) {
-                    content.innerHTML = "about page";
+                    content.innerHTML = i18n.getMessage("about");
+                },
+                onChangeLanguage: function(content) {
+                    app.body.content.innerHTML = i18n.getMessage("about");
                 }
             }}
         ],
@@ -180,6 +189,7 @@ var app = {
                             pages[j].page.init(app.body.content);
                             document.getElementById("link-header-" + pages[j].name).style.backgroundColor = "#000000";
                             document.getElementById("link-header-" + pages[j].name).style.fontWeight = "bold";
+                            app.body.actualPage = pages[j].page;
                         } else if (pages[j].pages) {
                             pages = pages[j].pages;
                             break;
@@ -226,6 +236,7 @@ var app = {
                     app.body.pages[i].page.init(app.body.content);
                     document.getElementById("link-header-" + app.body.pages[i].name).style.backgroundColor = "#000000";
                     document.getElementById("link-header-" + app.body.pages[i].name).style.fontWeight = "bold";
+                    app.body.actualPage = app.body.pages[i].page;
                     founded = true;
                 } else {
                     document.getElementById("link-header-" + app.body.pages[i].name).style.backgroundColor = "#222222";
@@ -237,6 +248,7 @@ var app = {
             app.body.pages[0].page.init(app.body.content);
             document.getElementById("link-header-" + app.body.pages[0].name).style.backgroundColor = "#000000";
             document.getElementById("link-header-" + app.body.pages[0].name).style.fontWeight = "bold";
+            app.body.actualPage = app.body.pages[0].page;
         }
     }
 };
