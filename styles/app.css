@@ -1,0 +1,113 @@
+html {
+    font-family: monospace;
+    font-size: 15px;
+    background-color: #FFFFFF;
+    color: #EEEEEE;
+}
+input {
+    margin: 2px;
+    border: black thin solid;
+    padding: 4px;
+    height: 20px;
+    background-color: #333333;
+    color: #DDDDDD;
+}
+select {
+    margin: 2px;
+    border: black thin solid;
+    padding: 5px 4px;
+    background-color: #333333;
+    color: #DDDDDD;
+}
+/** Loadding screen. */
+div#loading-screen {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #FFFFFF;
+    z-index: 10000;
+    opacity: 0.4;
+    color: #000000;
+    text-align: center;
+    padding-top: 10%;
+}
+/* Body styles. */
+div#content-body {
+    position: absolute;
+    top: 43px;
+    left: 0px;
+    right: 0px;
+    bottom: 18px;
+    padding: 5px;
+    overflow: auto;
+    background-color: #000000;
+    color: #E8E8E8;
+}
+/* Header styles. */
+div#content-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 5px;
+    height: 33px;
+    overflow: hidden;
+    background-color: #222222;
+    font-family: monospace;
+}
+div#content-header > img {
+    margin-top: 4px;
+    margin-left: 4px;
+    height: 25px;
+    width: 25px;
+    float: left;
+    margin-right: 10px;
+}
+div#content-header > a {
+    margin-top: 2px;
+    color: #D58512;
+    text-decoration: none;
+    float: left;
+    padding: 5px 15px 5px 15px;
+}
+div#content-header > a:hover {
+    font-weight: 900;
+}
+div#content-header > select.right {
+    float: right;
+}
+/* Footer styles. */
+div#content-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 14px;
+    padding: 2px;
+    margin: 0px;
+    overflow: hidden;
+    text-align: right;
+    background-color: #222222;
+    color: #E8E8E8;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 12px;
+}
+div#content-footer > a {
+    color: #D58512;
+    text-decoration: none;
+}
+div#content-footer > a:hover {
+    font-weight: 900;
+}
+@media screen and (max-width: 240px) {
+    div#content-footer {
+        height: 31px;
+        overflow-x: scroll;
+    }
+    div#content-body {
+        bottom: 35px;
+    }
+}
