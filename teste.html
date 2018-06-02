@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Teste</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="scripts/ajax.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            console.log("tentando GET");
+            ajax.get("http://localhost:8080/user/teste", function(response) {
+                console.log(response);
+                console.log("FIM GET");
+            });
+            console.log("tentando POST");
+            ajax.get("http://localhost:8080/user/teste", {id: 1, texto: "é isso ai!"}, function (response) {
+                console.log(response);
+                console.log("FIM POST");
+            });
+        </script>
+    </body>
+</html>
