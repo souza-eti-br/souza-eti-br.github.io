@@ -33,37 +33,28 @@ var app = {
         if (inteiro === undefined) {
             inteiro = "0";
         }
-        var size = 3;
-        if (inteiro.length > size + 1) {
-            inteiro = inteiro.substr(0, inteiro.length - size) + "." + inteiro.substr(inteiro.length - size);
-            size = size + 4;
-        }
-        while (inteiro.length > size) {
-            inteiro = inteiro.substr(0, inteiro.length - size) + "." + inteiro.substr(inteiro.length - size);
-            size = size + 4;
-        }
         if (inteiro.length > length) {
             return false;
+        } else if (inteiro.length === length) {
+            return inteiro;
+        } else if ((inteiro.length + 1) === length) {
+            return "0" + inteiro;
         } else {
-            if (inteiro.length + 1 === length) {
-                return "0" + inteiro;
+            if (decimal.length >= (length - inteiro.length) - 1) {
+                decimal = decimal.substr(0, (length - inteiro.length) - 1);
             } else {
-                if (decimal.length >= (length - inteiro.length) - 1) {
-                    decimal = decimal.substr(0, (length - inteiro.length) - 1);
-                } else {
-                    while (decimal.length < (length - inteiro.length) - 1) {
-                        decimal = decimal + "0";
-                    }
+                while (decimal.length < (length - inteiro.length) - 1) {
+                    decimal = decimal + "0";
                 }
-                return inteiro + "," + decimal;
             }
+            return inteiro + "." + decimal;
         }
     },
     formatDateTime: function (date) {
         return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + "." + app.formatNumber(date[6], 3) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
     },
     showGeneric: function (id, text, value) {
-        var formatted = app.formatDecimal(value, 23 - (text.length - 7));
+        var formatted = app.formatDecimal(value, 16 - (text.length - 7));
         if (formatted) {
             document.getElementById(id).innerHTML = text + formatted;
         } else {
@@ -103,8 +94,8 @@ var app = {
         app.showGeneric("years", "Anos: ", diff);
     },
     execution: function (date) {
-        document.getElementById("now-datetime").innerHTML = "Agora: " + app.formatDateTime(app.now);
-        document.getElementById("since-datetime").innerHTML = "Parei: " + app.formatDateTime(app.moment);
+        document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
+        document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
         app.showDiffMiliSeconds(date);
         app.showDiffSeconds(date);
         app.showDiffMinutes(date);
@@ -118,7 +109,7 @@ var app = {
         var now = new Date();
         app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
         var diff = app.getDiffArray();
-        document.getElementById("diff-datetime").innerHTML = "Tempo: " + app.formatDateTime(diff);
+        document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
         app.execution(diff);
         setTimeout(app.calcule, 75);
     },
