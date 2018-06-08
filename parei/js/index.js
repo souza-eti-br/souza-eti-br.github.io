@@ -2,7 +2,7 @@ var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2018, 6, 3, 23, 58, 40, 543],
+    moment: [2018, 6, 7, 23, 41, 55, 719],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
@@ -33,6 +33,15 @@ var app = {
         if (inteiro === undefined) {
             inteiro = "0";
         }
+        var size = 3;
+        if (inteiro.length > size + 1) {
+            inteiro = inteiro.substr(0, inteiro.length - size) + "." + inteiro.substr(inteiro.length - size);
+            size = size + 4;
+        }
+        while (inteiro.length > size) {
+            inteiro = inteiro.substr(0, inteiro.length - size) + "." + inteiro.substr(inteiro.length - size);
+            size = size + 4;
+        }
         if (inteiro.length > length) {
             return false;
         } else if (inteiro.length === length) {
@@ -47,7 +56,7 @@ var app = {
                     decimal = decimal + "0";
                 }
             }
-            return inteiro + "." + decimal;
+            return inteiro + "," + decimal;
         }
     },
     formatDateTime: function (date) {

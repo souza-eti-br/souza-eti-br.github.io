@@ -33,9 +33,6 @@ var ajax = {
             }
         };
         http.open(method, url, true);
-//        http.setRequestHeader("application", "webapp");
-//        http.setRequestHeader("action", "webact");
-//        http.setRequestHeader("token", "webtok");
         return http;
     },
     get: function (url, finish) {
