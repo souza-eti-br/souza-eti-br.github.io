@@ -88,7 +88,7 @@ var app = {
     },
     showDiffDays: function (date) {
         var diff = (date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740);
-        app.showGeneric("days", "Dia.: ", diff);
+        app.showGeneric("days", "Dias: ", diff);
     },
     showDiffWeeks: function (date) {
         var diff = ((date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740)) / 7;
@@ -100,7 +100,7 @@ var app = {
     },
     showDiffYears: function (date) {
         var diff = date[0] + (date[1] * 0.0833333333333333) + (date[2] * 0.0027397260273973) + (date[3] * 0.0001141552511415) + (date[4] * 0.0000019025875190) + (date[5] * 0.0000000317097919) + (date[6] * 0.0000000000317097);
-        app.showGeneric("years", "Ano.: ", diff);
+        app.showGeneric("years", "Anos: ", diff);
     },
     execution: function (date) {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
