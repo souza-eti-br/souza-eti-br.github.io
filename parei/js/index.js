@@ -60,10 +60,10 @@ var app = {
         }
     },
     formatDateTime: function (date) {
-        return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + "." + app.formatNumber(date[6], 3) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
+        return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
     },
     showGeneric: function (id, text, value) {
-        var formatted = app.formatDecimal(value, 16 - (text.length - 7));
+        var formatted = app.formatDecimal(value, 9 - (text.length - 7));
         if (formatted) {
             document.getElementById(id).innerHTML = text + formatted;
         } else {
@@ -72,35 +72,35 @@ var app = {
     },
     showDiffMiliSeconds: function (date) {
         var diff = (date[0] * 31536000000) + (date[1] * 2628000000) + (date[2] * 86400000) + (date[3] * 3600000) + (date[4] * 60000) + (date[5] * 1000) + date[6];
-        app.showGeneric("miliseconds", "Milisegundos: ", diff);
+        app.showGeneric("miliseconds", "Mil.: ", diff);
     },
     showDiffSeconds: function (date) {
         var diff = (date[0] * 31536000) + (date[1] * 2628000) + (date[2] * 86400) + (date[3] * 3600) + (date[4] * 60) + date[5] + (date[6] * 0.001);
-        app.showGeneric("seconds", "Segundos....: ", diff);
+        app.showGeneric("seconds", "Seg.: ", diff);
     },
     showDiffMinutes: function (date) {
         var diff = (date[0] * 525600) + (date[1] * 43800) + (date[2] * 1440) + (date[3] * 60) + date[4] + (date[5] * 0.0166666666666667) + (date[6] * 0.0000166666666667);
-        app.showGeneric("minutes", "Minutos.....: ", diff);
+        app.showGeneric("minutes", "Min.: ", diff);
     },
     showDiffHours: function (date) {
         var diff = (date[0] * 8760) + (date[1] * 730) + (date[2] * 24) + date[3] + (date[4] * 0.0166666666666667) + (date[5] * 0.0002777777777778) + (date[6] * 0.0000002777777778);
-        app.showGeneric("hours", "Horas.......: ", diff);
+        app.showGeneric("hours", "Hor.: ", diff);
     },
     showDiffDays: function (date) {
         var diff = (date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740);
-        app.showGeneric("days", "Dias........: ", diff);
+        app.showGeneric("days", "Dia.: ", diff);
     },
     showDiffWeeks: function (date) {
         var diff = ((date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740)) / 7;
-        app.showGeneric("weeks", "Semanas.....: ", diff);
+        app.showGeneric("weeks", "Sem.: ", diff);
     },
     showDiffMonths: function (date) {
         var diff = (date[0] * 12) + date[1] + (date[2] * 0.0328767123287671) + (date[3] * 0.0013698630136986) + (date[4] * 0.0000228310502283) + (date[5] * 0.0000003805175038) + (date[6] * 0.0000000003805175);
-        app.showGeneric("months", "Meses.......: ", diff);
+        app.showGeneric("months", "Mes.: ", diff);
     },
     showDiffYears: function (date) {
         var diff = date[0] + (date[1] * 0.0833333333333333) + (date[2] * 0.0027397260273973) + (date[3] * 0.0001141552511415) + (date[4] * 0.0000019025875190) + (date[5] * 0.0000000317097919) + (date[6] * 0.0000000000317097);
-        app.showGeneric("years", "Anos........: ", diff);
+        app.showGeneric("years", "Ano.: ", diff);
     },
     execution: function (date) {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
