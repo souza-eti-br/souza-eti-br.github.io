@@ -148,9 +148,9 @@ var app = {
             diff[2] = diff[2] - 1;
         }
         if (diff[2] < 0) {
-            if ([1, 3, 5, 7, 8, 10, 12].indexOf(app.now[1]) !== -1) {
+            if ([2, 4, 6, 8, 9, 11, 1].indexOf(app.now[1]) !== -1) {
                 diff[2] = diff[2] + 31;
-            } else if ([4, 6, 9, 11].indexOf(app.now[1]) !== -1) {
+            } else if ([5, 7, 10, 12].indexOf(app.now[1]) !== -1) {
                 diff[2] = diff[2] + 30;
             } else if ((app.now[0] % 4 === 0) && (app.now[0] % 400 !== 0)) {
                 diff[2] = diff[2] + 29;
