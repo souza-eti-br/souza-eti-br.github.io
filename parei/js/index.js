@@ -92,7 +92,7 @@ var app = {
     },
     showDiffWeeks: function (date) {
         var diff = ((date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740)) / 7;
-        app.showGeneric("weeks", "Semanas.: ", diff);
+        app.showGeneric("weeks", "Semanas: ", diff);
     },
     showDiffMonths: function (date) {
         var diff = (date[0] * 12) + date[1] + (date[2] * 0.0328767123287671) + (date[3] * 0.0013698630136986) + (date[4] * 0.0000228310502283) + (date[5] * 0.0000003805175038) + (date[6] * 0.0000000003805175);
