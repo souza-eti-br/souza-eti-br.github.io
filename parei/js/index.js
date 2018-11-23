@@ -2,7 +2,7 @@ var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2018, 11, 20, 19, 23, 55, 539],
+    moment: [2018, 11, 23, 1, 10, 22, 965],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
