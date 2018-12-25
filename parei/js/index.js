@@ -1,9 +1,8 @@
-var a = true;
 var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2018,12,22,23,56,37,349],
+    moment: [2018,12,25,18,43,54,890],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
@@ -118,10 +117,6 @@ var app = {
     calcule: function () {
         var now = new Date();
         app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
-        if (a) {
-            document.write(app.now);
-            a = false;
-        }
         var diff = app.getDiffArray();
         document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
         app.execution(diff);
