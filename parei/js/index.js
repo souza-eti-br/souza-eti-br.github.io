@@ -167,3 +167,4 @@ var app = {
     }
 };
 app.initialize();
+document.write(new Date().getTime());
