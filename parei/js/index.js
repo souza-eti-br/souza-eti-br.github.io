@@ -2,7 +2,7 @@ var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2019, 3, 5, 20, 28, 35, 902],
+    moment: [2019, 3, 7, 7, 2, 17, 679], // 1551952937679 = Thu Mar 07 07:02:17 BRT 2019
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
