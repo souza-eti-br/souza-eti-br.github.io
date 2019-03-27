@@ -1,4 +1,3 @@
-var a = true;
 var app = {
     initialize: function () {
         app.calcule();
@@ -118,10 +117,6 @@ var app = {
     calcule: function () {
         var now = new Date();
         app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
-        if (a) {
-            document.write(app.now);
-            a = false;
-        }
         var diff = app.getDiffArray();
         document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
         app.execution(diff);
@@ -172,3 +167,4 @@ var app = {
     }
 };
 app.initialize();
+document.write(new Date().getTime() + "L");
