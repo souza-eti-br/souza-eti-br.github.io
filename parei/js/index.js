@@ -1,4 +1,4 @@
-var showNow = false;
+var showNow = true;
 var app = {
     initialize: function () {
         app.calcule();
