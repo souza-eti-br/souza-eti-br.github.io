@@ -119,7 +119,31 @@ var app = {
         var now = new Date();
         app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
         if (showNow) {
-            document.write(app.now);
+            var textNow = app.now[1] + "/" + app.now[0];
+            while (textNow.length < 7) {
+                textNow = "0" + textNow;
+            }
+            textNow = app.now[2] + "/" + textNow;
+            while (textNow.length < 10) {
+                textNow = "0" + textNow;
+            }
+            textNow = app.now[6] + " " + textNow;
+            while (textNow.length < 14) {
+                textNow = "0" + textNow;
+            }
+            textNow = app.now[5] + "." + textNow;
+            while (textNow.length < 17) {
+                textNow = "0" + textNow;
+            }
+            textNow = app.now[4] + ":" + textNow;
+            while (textNow.length < 20) {
+                textNow = "0" + textNow;
+            }
+            textNow = app.now[3] + ":" + textNow;
+            while (textNow.length < 23) {
+                textNow = "0" + textNow;
+            }
+            document.write(textNow);
             showNow = false;
         }
         var diff = app.getDiffArray();
