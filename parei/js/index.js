@@ -1,9 +1,9 @@
-var showNow = false;
+var showNow = true;
 var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2019, 6, 16, 17, 43, 55, 606],
+    moment: [2019, 6, 17, 1, 42, 47, 618],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
