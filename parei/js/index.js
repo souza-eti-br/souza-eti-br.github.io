@@ -1,4 +1,5 @@
 var showNow = true;
+var textNow = "";
 var app = {
     initialize: function () {
         app.calcule();
@@ -119,7 +120,7 @@ var app = {
         var now = new Date();
         app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
         if (showNow) {
-            var textNow = app.now[1] + "/" + app.now[0];
+            textNow = app.now[1] + "/" + app.now[0];
             while (textNow.length < 7) {
                 textNow = "0" + textNow;
             }
@@ -195,4 +196,11 @@ var app = {
         return diff;
     }
 };
+function myFunction() {
+    var copyText = document.getElementById("myInput");
+    copyText.value = textNow;
+    copyText.select();
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+}
 app.initialize();
