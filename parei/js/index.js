@@ -1,4 +1,4 @@
-var showNow = false;
+var showNow = true;
 var textNow = "";
 var app = {
     initialize: function () {
@@ -144,7 +144,7 @@ var app = {
             while (textNow.length < 23) {
                 textNow = "0" + textNow;
             }
-            document.write(textNow);
+            document.getElementById("myInput").value = textNow;
             showNow = false;
         }
         var diff = app.getDiffArray();
