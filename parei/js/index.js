@@ -1,10 +1,10 @@
-var showNow = true;
+var showNow = false;
 var textNow = "";
 var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2019, 7, 19, 21, 53, 44, 659],
+    moment: [2019, 7, 21, 15, 36, 48, 333],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
