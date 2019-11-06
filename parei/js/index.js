@@ -144,8 +144,8 @@ var app = {
             while (textNow.length < 18) {
                 textNow = "0" + textNow;
             }
-            textNow = app.now[0] + "-" + textNow;
-            document.getElementById("myInput").value = "\"" + textNow + "\", ";
+            textNow = "\"" + app.now[0] + "-" + textNow + "\", ";
+            document.getElementById("myInput").value = textNow;
             showNow = false;
         }
         var diff = app.getDiffArray();
