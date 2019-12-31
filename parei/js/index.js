@@ -4,7 +4,7 @@ var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2019, 12, 29, 20, 20, 38, 335],
+    moment: [2019, 12, 31, 20, 52, 21, 882],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
@@ -120,31 +120,7 @@ var app = {
         var now = new Date();
         app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
         if (showNow) {
-            textNow = app.now[6] + "";
-            while (textNow.length < 3) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[5] + "." + textNow;
-            while (textNow.length < 6) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[4] + ":" + textNow;
-            while (textNow.length < 9) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[3] + ":" + textNow;
-            while (textNow.length < 12) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[2] + " " + textNow;
-            while (textNow.length < 15) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[1] + "-" + textNow;
-            while (textNow.length < 18) {
-                textNow = "0" + textNow;
-            }
-            textNow = "\"" + app.now[0] + "-" + textNow + "\", ";
+            textNow = app.now[0] + ", " + app.now[1] + ", " + app.now[2] + ", " + app.now[3] + ", " + app.now[4] + ", " + app.now[5] + ", " + app.now[6];
             document.getElementById("myInput").value = textNow;
             showNow = false;
         }
