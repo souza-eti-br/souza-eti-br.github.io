@@ -4,7 +4,7 @@ var app = {
     initialize: function () {
         app.calcule();
     },
-    moment: [2020, 3, 8, 7, 9, 15, 209],
+    moment: [2020, 3, 10, 2, 1, 3, 508],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
