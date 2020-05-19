@@ -1,4 +1,4 @@
-var showNow = false;
+var showNow = true;
 var textNow = "";
 var app = {
     initialize: function () {
