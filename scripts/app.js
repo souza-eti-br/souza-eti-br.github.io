@@ -1,6 +1,6 @@
 "use strict";
 var i18n = {
-    selector: factory.element({ tag: "select", className: "right" }),
+    selector: factory.element({tag: "select", className: "right"}),
     addLanguage: function (value, label, selected, url) {
         if (!value) {
             throw "Value is required.";
@@ -11,7 +11,7 @@ var i18n = {
         if (!url) {
             throw "Url is required.";
         }
-        this.selector.add(factory.element({ tag: "option", children: label, value: value, selected: selected }));
+        this.selector.add(factory.element({tag: "option", children: label, value: value, selected: selected}));
         this.loading++;
         ajax.get(url, function (response) {
             if (response.status === 200) {
@@ -129,13 +129,13 @@ var app = {
             tag: "div",
             id: "content-header",
             children: [
-                factory.element({ tag: "img", src: "images/favicon.png", children: "Souza.eti.br"}),
-                factory.element({ tag: "a", id: "link-header-home", href: "#home" }),
-                factory.element({ tag: "a", id: "link-header-about", href: "#about" }),
+                factory.element({tag: "img", src: "images/favicon.png", children: "Souza.eti.br"}),
+                factory.element({tag: "a", id: "link-header-home", href: "#home"}),
+                factory.element({tag: "a", id: "link-header-about", href: "#about"}),
                 i18n.selector
             ]
         }),
-        onLanguageChange: function() {
+        onLanguageChange: function () {
             document.getElementById("link-header-home").innerHTML = i18n.getMessage("home");
             document.getElementById("link-header-about").innerHTML = i18n.getMessage("about");
         }
@@ -145,13 +145,13 @@ var app = {
             tag: "div",
             id: "content-footer",
             children: [
-                factory.element({ tag: "span", id: "content-footer-label"}),
+                factory.element({tag: "span", id: "content-footer-label"}),
                 ": ",
-                factory.element({ tag: "a", href: "mailto:alan@souza.eti.br", target: "_BLANK", children: "Alan Moraes Souza"}),
+                factory.element({tag: "a", href: "mailto:alan@souza.eti.br", target: "_BLANK", children: "Alan Moraes Souza"}),
                 "."
             ]
         }),
-        onLanguageChange: function() {
+        onLanguageChange: function () {
             document.getElementById("content-footer-label").innerHTML = i18n.getMessage("developed.by");
             if (document.getElementById("loading-label")) {
                 document.getElementById("loading-label").innerHTML = i18n.getMessage("loading");
@@ -159,24 +159,24 @@ var app = {
         }
     },
     body: {
-        content: factory.element({ tag: "div", id: "content-body" }),
+        content: factory.element({tag: "div", id: "content-body"}),
         pages: [
-            { name: "home", page: {
-                init: function(content) {
-                    content.innerHTML = i18n.getMessage("welcome");
-                },
-                onChangeLanguage: function(content) {
-                    app.body.content.innerHTML = i18n.getMessage("welcome");
-                }
-            }},
-            { name: "about", page: {
-                init: function(content) {
-                    content.innerHTML = i18n.getMessage("about");
-                },
-                onChangeLanguage: function(content) {
-                    app.body.content.innerHTML = i18n.getMessage("about");
-                }
-            }}
+            {name: "home", page: {
+                    init: function (content) {
+                        content.innerHTML = i18n.getMessage("welcome");
+                    },
+                    onChangeLanguage: function (content) {
+                        app.body.content.innerHTML = i18n.getMessage("welcome");
+                    }
+                }},
+            {name: "about", page: {
+                    init: function (content) {
+                        content.innerHTML = i18n.getMessage("about");
+                    },
+                    onChangeLanguage: function (content) {
+                        app.body.content.innerHTML = i18n.getMessage("about");
+                    }
+                }}
         ],
         onChangeHash: function (event) {
             var listHash = window.location.hash.substring(1).split("/");
@@ -204,11 +204,11 @@ var app = {
     },
     loading: {
         content: factory.element({tag: "div", id: "loading-screen", children: [
-            factory.element({tag: "img", src: "images/loading.gif", alt: "loading"}),
-            factory.element({tag: "br"}),
-            factory.element({tag: "span"})
-        ]}),
-        onLanguageChange: function() {
+                factory.element({tag: "img", src: "images/loading.gif", alt: "loading"}),
+                factory.element({tag: "br"}),
+                factory.element({tag: "span"})
+            ]}),
+        onLanguageChange: function () {
             app.loading.content.innerHTML = i18n.getMessage("loading");
         }
     },
@@ -216,8 +216,8 @@ var app = {
         window.addEventListener("hashchange", app.body.onChangeHash);
         i18n.init([
             {label: "English", value: "en", default: false, urlOfValues: "jsons/i18n-en.json"},
-            {label: "EspaÃ±ol", value: "es", default: false, urlOfValues: "jsons/i18n-es.json"},
-            {label: "PortuguÃªs", value: "pt", default: true, urlOfValues: "jsons/i18n-pt.json"}
+            {label: "Español", value: "es", default: false, urlOfValues: "jsons/i18n-es.json"},
+            {label: "Português", value: "pt", default: true, urlOfValues: "jsons/i18n-pt.json"}
         ], [
             function () {
                 app.header.onLanguageChange();
