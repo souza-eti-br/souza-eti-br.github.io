@@ -216,8 +216,8 @@ var app = {
         window.addEventListener("hashchange", app.body.onChangeHash);
         i18n.init([
             {label: "English", value: "en", default: false, urlOfValues: "jsons/i18n-en.json"},
-            {label: "Español", value: "es", default: false, urlOfValues: "jsons/i18n-es.json"},
-            {label: "Português", value: "pt", default: true, urlOfValues: "jsons/i18n-pt.json"}
+            {label: "EspaÃ±ol", value: "es", default: false, urlOfValues: "jsons/i18n-es.json"},
+            {label: "PortuguÃªs", value: "pt", default: true, urlOfValues: "jsons/i18n-pt.json"}
         ], [
             function () {
                 app.header.onLanguageChange();
