@@ -8,6 +8,8 @@ import java.util.TreeMap;
 public class Parei {
 
     private static final String[] DATA = {
+        "2021-01-09 21:23:27.817", "2021-01-09 18:55:47.106", "2021-01-09 16:28:46.768", "2021-01-09 13:57:54.859",
+        "2021-01-09 11:35:27.332", "2021-01-09 01:20:08.335", "2021-01-08 23:02:34.251", "2021-01-08 20:49:53.692", "2021-01-08 18:37:00.871",
         "2021-01-08 16:25:38.926", "2021-01-08 14:09:42.310", "2021-01-08 11:57:37.043", "2021-01-08 09:44:53.860", "2021-01-08 01:56:47.770",
         "2021-01-07 23:39:04.831", "2021-01-07 21:35:53.748", "2021-01-07 19:31:40.186", "2021-01-07 17:31:19.453", "2021-01-07 15:23:05.911",
         "2021-01-07 13:22:25.227", "2021-01-07 11:23:38.840", "2021-01-07 01:46:47.631", "2021-01-06 23:42:14.196", "2021-01-06 21:43:47.836",
@@ -18,8 +20,7 @@ public class Parei {
         "2021-01-04 15:05:52.317", "2021-01-04 06:33:01.751", "2021-01-04 00:33:01.751", "2021-01-04 00:01:26.959", "2021-01-03 23:43:36.719",
         "2021-01-03 22:37:30.812", "2021-01-03 21:32:51.793", "2021-01-03 21:10:41.999", "2021-01-03 20:39:40.801", "2021-01-03 20:17:11.551",
         "2021-01-03 19:32:58.614", "2021-01-03 19:00:58.614", "2021-01-03 18:55:45.820", "2021-01-03 17:52:59.280", "2021-01-03 17:29:56.832",
-        "2021-01-03 16:52:19.581", "2021-01-03 16:25:57.769", "2021-01-03 16:00:46.634", "2021-01-03 15:23:08.593", "2021-01-03 15:03:33.782",
-        "2021-01-03 13:32:53.177", "2021-01-03 11:59:58.630", "2021-01-03 10:39:04.983", "2021-01-03 09:19:32.560", "2021-01-03 08:00:19.482"
+        "2021-01-03 16:52:19.581"
     };
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private static final NumberFormat NUMBER_PERCENT = new DecimalFormat("00.00");
@@ -37,7 +38,7 @@ public class Parei {
             long media = Parei.getMedia(data);
             long mediana = Parei.getMediana(data);
             double days = ((double) now - first) / (24 * 60 * 60 * 1000);
-            System.out.println("Ultimo:  " + Parei.DATE_FORMAT.format(last) + "   Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
+            System.out.println("Ultimo:  " + Parei.DATE_FORMAT.format(last) + " > Passou  " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
             System.out.println("Maior:   " + Parei.formatDiff(now, last, max));
             System.out.println("Media:   " + Parei.formatDiff(now, last, media));
             System.out.println("Metade:  " + Parei.formatDiff(now, last, (media + mediana) / 2));
@@ -112,7 +113,7 @@ public class Parei {
         String formatted = Parei.DATE_FORMAT.format(last + diff) + " > ";
         if ((last + diff) > now) {
             long part = (last + diff - now);
-            formatted = formatted + "Faltam " + Parei.NUMBER_PERCENT.format(((double) 100 * part) / diff).replace(",", ".") + "%: " + Parei.formatLongToTime(part) + " de " + Parei.formatLongToTime(diff);
+            formatted = formatted + "Faltam  " + Parei.NUMBER_PERCENT.format(((double) 100 * part) / diff).replace(",", ".") + "%: " + Parei.formatLongToTime(part) + " de " + Parei.formatLongToTime(diff);
         } else {
             long part = (now - last - diff);
             formatted = formatted + "Passou " + Parei.NUMBER_PERCENT.format(((double) 100 * part) / diff).replace(",", ".") + "%: " + Parei.formatLongToTime(diff) + " + " + Parei.formatLongToTime(part);
