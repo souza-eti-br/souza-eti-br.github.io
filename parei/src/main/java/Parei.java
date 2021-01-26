@@ -9,6 +9,9 @@ public class Parei {
 
     private static final String[] DATA = {
         //
+        "2021-01-26 00:04:10.655",
+        "2021-01-25 22:27:27.682", "2021-01-25 20:49:33.938", "2021-01-25 19:12:38.730", "2021-01-25 17:37:19.147", "2021-01-25 15:57:15.878",
+        //
         "2021-01-25 04:04:18.419", "2021-01-25 03:50:33.303", "2021-01-25 03:40:08.587", "2021-01-25 03:30:50.378", "2021-01-25 03:18:58.596",
         "2021-01-25 03:06:41.059", "2021-01-25 02:26:41.059", "2021-01-25 01:46:24.539", "2021-01-25 00:43:21.624", "2021-01-24 23:19:37.695",
         "2021-01-24 20:02:44.579", "2021-01-24 19:31:54.182", "2021-01-24 18:38:08.206", "2021-01-24 17:50:27.586", "2021-01-24 17:34:55.918",
@@ -106,23 +109,35 @@ public class Parei {
         if (Parei.DATA.length == 0) {
             System.out.println("Sem dados para calculo!");
         } else {
-            TreeMap<Long, Long> data = Parei.makeDatabase(3000);
             long now = System.currentTimeMillis();
-            long first = data.firstKey();
-            long last = data.lastKey();
-            long max = Parei.getMaximo(data);
-            long min = Parei.getMinimo(data);
-            long media = Parei.getMedia(data);
-            long mediana = Parei.getMediana(data);
-            double days = ((double) now - first) / (24 * 60 * 60 * 1000);
+            long last = Parei.makeDatabase(1).lastKey();
             System.out.println("Ultimo:  " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
-            //System.out.println("Maior:   " + Parei.formatDiff(now, last, max));
-            System.out.println("Media:   " + Parei.formatDiff(now, last, media));
-            System.out.println("Metade:  " + Parei.formatDiff(now, last, (media + mediana) / 2));
-            System.out.println("Mediana: " + Parei.formatDiff(now, last, mediana));
-            //System.out.println("Menor:   " + Parei.formatDiff(now, last, min));
-            System.out.println("Usados: " + data.size() + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(20 * (days / data.size())).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(1 / (20 * (days / data.size()))).replace(",", ".").replace("00", "0") + " por dia.");
+            System.out.println();
+            long[] size050 = Parei.proccess(now, last, 50);
+            System.out.println();
+            long[] size100 = Parei.proccess(now, last, 100);
+            System.out.println();
+            long[] size200 = Parei.proccess(now, last, 200);
+            System.out.println();
+            long[] size400 = Parei.proccess(now, last, 400);
         }
+    }
+
+    public static long[] proccess(long now, long last, int size) throws Exception {
+        TreeMap<Long, Long> data = Parei.makeDatabase(size);
+        long first = data.firstKey();
+        long max = Parei.getMaximo(data);
+        long min = Parei.getMinimo(data);
+        long media = Parei.getMedia(data);
+        long mediana = Parei.getMediana(data);
+        double days = ((double) now - first) / (24 * 60 * 60 * 1000);
+        System.out.println("Maior:   " + Parei.formatDiff(now, last, max));
+        System.out.println("Media:   " + Parei.formatDiff(now, last, media));
+        System.out.println("Metade:  " + Parei.formatDiff(now, last, (media + mediana) / 2));
+        System.out.println("Mediana: " + Parei.formatDiff(now, last, mediana));
+        System.out.println("Menor:   " + Parei.formatDiff(now, last, min));
+        System.out.println("Usados: " + data.size() + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(20 * (days / data.size())).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(1 / (20 * (days / data.size()))).replace(",", ".").replace("00", "0") + " por dia.");
+        return new long[]{max, media, (media + mediana) / 2, mediana, min};
     }
 
     private static TreeMap<Long, Long> makeDatabase(int size) throws Exception {
