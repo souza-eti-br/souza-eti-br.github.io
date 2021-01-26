@@ -8,8 +8,8 @@ import java.util.TreeMap;
 public class Parei {
 
     private static final String[] DATA = {
-        //
-        "2021-01-26 09:48:58.895", "2021-01-26 01:39:41.344", "2021-01-26 00:04:10.655",
+        "2021-01-26 18:08:52.380", "2021-01-26 15:35:44.090",
+        "2021-01-26 13:57:03.674", "2021-01-26 12:02:32.867", "2021-01-26 09:48:58.895", "2021-01-26 01:39:41.344", "2021-01-26 00:04:10.655",
         "2021-01-25 22:27:27.682", "2021-01-25 20:49:33.938", "2021-01-25 19:12:38.730", "2021-01-25 17:37:19.147", "2021-01-25 15:57:15.878",
         //
         "2021-01-25 04:04:18.419", "2021-01-25 03:50:33.303", "2021-01-25 03:40:08.587", "2021-01-25 03:30:50.378", "2021-01-25 03:18:58.596",
@@ -111,19 +111,46 @@ public class Parei {
         } else {
             long now = System.currentTimeMillis();
             long last = Parei.makeDatabase(1).lastKey();
-            System.out.println("Ultimo:  " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
+            Result r050 = Parei.proccess(now, last, 50);
+            Result r100 = Parei.proccess(now, last, 100);
+            Result r200 = Parei.proccess(now, last, 200);
+            Result r400 = Parei.proccess(now, last, 400);
+            System.out.println(System.getProperty("jansi.passthrough"));
+            System.out.println("Ultimo: " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
             System.out.println();
-            long[] size050 = Parei.proccess(now, last, 50);
+            System.out.println("Maior  50: " + Parei.formatDiff(now, last, r050.max));
+            System.out.println("Maior 100: " + Parei.formatDiff(now, last, r100.max));
+            System.out.println("Maior 200: " + Parei.formatDiff(now, last, r200.max));
+            System.out.println("Maior 400: " + Parei.formatDiff(now, last, r400.max));
             System.out.println();
-            long[] size100 = Parei.proccess(now, last, 100);
+            System.out.println("Media  50: " + Parei.formatDiff(now, last, r050.media));
+            System.out.println("Media 100: " + Parei.formatDiff(now, last, r100.media));
+            System.out.println("Media 200: " + Parei.formatDiff(now, last, r200.media));
+            System.out.println("Media 400: " + Parei.formatDiff(now, last, r400.media));
             System.out.println();
-            long[] size200 = Parei.proccess(now, last, 200);
+            System.out.println("Metade  50: " + Parei.formatDiff(now, last, r050.metade));
+            System.out.println("Metade 100: " + Parei.formatDiff(now, last, r100.metade));
+            System.out.println("Metade 200: " + Parei.formatDiff(now, last, r200.metade));
+            System.out.println("Metade 400: " + Parei.formatDiff(now, last, r400.metade));
             System.out.println();
-            long[] size400 = Parei.proccess(now, last, 400);
+            System.out.println("Mediana  50: " + Parei.formatDiff(now, last, r050.mediana));
+            System.out.println("Mediana 100: " + Parei.formatDiff(now, last, r100.mediana));
+            System.out.println("Mediana 200: " + Parei.formatDiff(now, last, r200.mediana));
+            System.out.println("Mediana 400: " + Parei.formatDiff(now, last, r400.mediana));
+            System.out.println();
+            System.out.println("Menor  50: " + Parei.formatDiff(now, last, r050.min));
+            System.out.println("Menor 100: " + Parei.formatDiff(now, last, r100.min));
+            System.out.println("Menor 200: " + Parei.formatDiff(now, last, r200.min));
+            System.out.println("Menor 400: " + Parei.formatDiff(now, last, r400.min));
+            System.out.println();
+            System.out.println("Usados  50:  " + r050.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r050.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r050.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r050.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
+            System.out.println("Usados 100: " + r100.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r100.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r100.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r100.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
+            System.out.println("Usados 200: " + r200.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r200.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r200.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r200.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
+            System.out.println("Usados 400: " + r400.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r400.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r400.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r400.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
         }
     }
 
-    public static long[] proccess(long now, long last, int size) throws Exception {
+    public static Result proccess(long now, long last, int size) throws Exception {
         TreeMap<Long, Long> data = Parei.makeDatabase(size);
         long first = data.firstKey();
         long max = Parei.getMaximo(data);
@@ -131,13 +158,7 @@ public class Parei {
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
         double days = ((double) now - first) / (24 * 60 * 60 * 1000);
-        System.out.println("Maior:   " + Parei.formatDiff(now, last, max));
-        System.out.println("Media:   " + Parei.formatDiff(now, last, media));
-        System.out.println("Metade:  " + Parei.formatDiff(now, last, (media + mediana) / 2));
-        System.out.println("Mediana: " + Parei.formatDiff(now, last, mediana));
-        System.out.println("Menor:   " + Parei.formatDiff(now, last, min));
-        System.out.println("Usados: " + data.size() + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(20 * (days / data.size())).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(1 / (20 * (days / data.size()))).replace(",", ".").replace("00", "0") + " por dia.");
-        return new long[]{max, media, (media + mediana) / 2, mediana, min};
+        return new Result(max, media, (media + mediana) / 2, mediana, min, data.size(), days, 20 * (days / data.size()), 1 / (20 * (days / data.size())));
     }
 
     private static TreeMap<Long, Long> makeDatabase(int size) throws Exception {
@@ -242,5 +263,30 @@ public class Parei {
             formatted = "0" + formatted;
         }
         return formatted;
+    }
+}
+
+class Result {
+
+    public final long max;
+    public final long media;
+    public final long metade;
+    public final long mediana;
+    public final long min;
+    public final int size;
+    public final double days;
+    public final double qtdBox;
+    public final double qtdItens;
+
+    public Result(long max, long media, long metade, long mediana, long min, int size, double days, double qtdBox, double qtdItens) {
+        this.max = max;
+        this.media = media;
+        this.metade = metade;
+        this.mediana = mediana;
+        this.min = min;
+        this.size = size;
+        this.days = days;
+        this.qtdBox = qtdBox;
+        this.qtdItens = qtdItens;
     }
 }
