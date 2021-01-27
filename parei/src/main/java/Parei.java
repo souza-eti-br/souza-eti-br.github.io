@@ -8,7 +8,8 @@ import java.util.TreeMap;
 public class Parei {
 
     private static final String[] DATA = {
-        "2021-01-26 18:08:52.380", "2021-01-26 15:35:44.090",
+        "2021-01-27 10:12:52.253", "2021-01-27 00:49:44.130", "2021-01-26 23:58:37.663", "2021-01-26 23:36:51.435", "2021-01-26 22:58:43.700",
+        "2021-01-26 22:24:56.565", "2021-01-26 21:24:26.469", "2021-01-26 19:47:37.063", "2021-01-26 18:08:52.380", "2021-01-26 15:35:44.090",
         "2021-01-26 13:57:03.674", "2021-01-26 12:02:32.867", "2021-01-26 09:48:58.895", "2021-01-26 01:39:41.344", "2021-01-26 00:04:10.655",
         "2021-01-25 22:27:27.682", "2021-01-25 20:49:33.938", "2021-01-25 19:12:38.730", "2021-01-25 17:37:19.147", "2021-01-25 15:57:15.878",
         //
@@ -115,7 +116,6 @@ public class Parei {
             Result r100 = Parei.proccess(now, last, 100);
             Result r200 = Parei.proccess(now, last, 200);
             Result r400 = Parei.proccess(now, last, 400);
-            System.out.println(System.getProperty("jansi.passthrough"));
             System.out.println("Ultimo: " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
             System.out.println();
             System.out.println("Maior  50: " + Parei.formatDiff(now, last, r050.max));
