@@ -8,6 +8,7 @@ import java.util.TreeMap;
 public class Parei {
 
     private static final String[] DATA = {
+        "2021-01-28 16:00:54.935", "2021-01-28 14:02:58.369", "2021-01-28 12:02:20.247",
         "2021-01-28 10:22:44.092", "2021-01-27 23:27:01.230", "2021-01-27 22:31:35.141", "2021-01-27 21:44:32.258", "2021-01-27 20:47:44.579",
         "2021-01-27 19:09:54.315", "2021-01-27 17:31:07.285", "2021-01-27 15:27:45.468", "2021-01-27 13:49:06.383", "2021-01-27 12:11:52.105",
         //
@@ -146,10 +147,10 @@ public class Parei {
             System.out.println("Menor 200: " + Parei.formatDiff(now, last, r200.min));
             System.out.println("Menor 400: " + Parei.formatDiff(now, last, r400.min));
             System.out.println();
-            System.out.println("Usados  50:  " + r050.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r050.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r050.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r050.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
-            System.out.println("Usados 100: " + r100.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r100.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r100.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r100.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
-            System.out.println("Usados 200: " + r200.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r200.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r200.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r200.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
-            System.out.println("Usados 400: " + r400.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r400.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r400.qtdBox).replace(",", ".") + " dias ou " + Parei.NUMBER_PERCENT.format(r400.qtdItens).replace(",", ".").replace("00", "0") + " por dia.");
+            System.out.println("Usados  50:  " + r050.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r050.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r050.qtdBox).replace(",", ".") + " dias.");
+            System.out.println("Usados 100: " + r100.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r100.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r100.qtdBox).replace(",", ".") + " dias.");
+            System.out.println("Usados 200: " + r200.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r200.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r200.qtdBox).replace(",", ".") + " dias.");
+            System.out.println("Usados 400: " + r400.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r400.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r400.qtdBox).replace(",", ".") + " dias.");
         }
     }
 
@@ -161,7 +162,7 @@ public class Parei {
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
         double days = ((double) now - first) / (24 * 60 * 60 * 1000);
-        return new Result(max, media, (media + mediana) / 2, mediana, min, data.size(), days, 20 * (days / data.size()), 1 / (20 * (days / data.size())));
+        return new Result(max, media, (media + mediana) / 2, mediana, min, data.size(), days, ((double) days) / ((double) data.size() / 20));
     }
 
     private static TreeMap<Long, Long> makeDatabase(int size) throws Exception {
@@ -279,9 +280,8 @@ class Result {
     public final int size;
     public final double days;
     public final double qtdBox;
-    public final double qtdItens;
 
-    public Result(long max, long media, long metade, long mediana, long min, int size, double days, double qtdBox, double qtdItens) {
+    public Result(long max, long media, long metade, long mediana, long min, int size, double days, double qtdBox) {
         this.max = max;
         this.media = media;
         this.metade = metade;
@@ -290,6 +290,5 @@ class Result {
         this.size = size;
         this.days = days;
         this.qtdBox = qtdBox;
-        this.qtdItens = qtdItens;
     }
 }
