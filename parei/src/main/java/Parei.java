@@ -8,7 +8,10 @@ import java.util.TreeMap;
 public class Parei {
 
     private static final String[] DATA = {
-        "2021-01-28 16:00:54.935", "2021-01-28 14:02:58.369", "2021-01-28 12:02:20.247",
+        "2021-01-29 10:10:36.960",
+        //
+        "2021-01-28 23:26:32.743", "2021-01-28 23:06:37.824", "2021-01-28 22:11:51.383", "2021-01-28 21:24:17.173", "2021-01-28 20:41:43.935",
+        "2021-01-28 19:28:03.351", "2021-01-28 17:42:34.451", "2021-01-28 16:00:54.935", "2021-01-28 14:02:58.369", "2021-01-28 12:02:20.247",
         "2021-01-28 10:22:44.092", "2021-01-27 23:27:01.230", "2021-01-27 22:31:35.141", "2021-01-27 21:44:32.258", "2021-01-27 20:47:44.579",
         "2021-01-27 19:09:54.315", "2021-01-27 17:31:07.285", "2021-01-27 15:27:45.468", "2021-01-27 13:49:06.383", "2021-01-27 12:11:52.105",
         //
@@ -116,41 +119,92 @@ public class Parei {
         } else {
             long now = System.currentTimeMillis();
             long last = Parei.makeDatabase(1).lastKey();
-            Result r050 = Parei.proccess(now, last, 50);
-            Result r100 = Parei.proccess(now, last, 100);
-            Result r200 = Parei.proccess(now, last, 200);
-            Result r400 = Parei.proccess(now, last, 400);
+            Result[] results = {
+                Parei.proccess(now, last, 400)
+            };
             System.out.println("Ultimo: " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
             System.out.println();
-            System.out.println("Maior  50: " + Parei.formatDiff(now, last, r050.max));
-            System.out.println("Maior 100: " + Parei.formatDiff(now, last, r100.max));
-            System.out.println("Maior 200: " + Parei.formatDiff(now, last, r200.max));
-            System.out.println("Maior 400: " + Parei.formatDiff(now, last, r400.max));
+            Parei.printMaior(now, last, results);
+            Parei.printMedia(now, last, results);
+            Parei.printMetade(now, last, results);
+            Parei.printMediana(now, last, results);
+            Parei.printMenor(now, last, results);
+            Parei.printUsados(results);
+        }
+    }
+
+    private static void printMaior(long now, long last, Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Maior " + r.limit + ": " + Parei.formatDiff(now, last, r.max));
+            } else {
+                System.out.println("Maior  : " + Parei.formatDiff(now, last, r.max));
+            }
+        }
+        if (results != null && results.length > 1) {
             System.out.println();
-            System.out.println("Media  50: " + Parei.formatDiff(now, last, r050.media));
-            System.out.println("Media 100: " + Parei.formatDiff(now, last, r100.media));
-            System.out.println("Media 200: " + Parei.formatDiff(now, last, r200.media));
-            System.out.println("Media 400: " + Parei.formatDiff(now, last, r400.media));
+        }
+    }
+
+    private static void printMedia(long now, long last, Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Media " + r.limit + ": " + Parei.formatDiff(now, last, r.media));
+            } else {
+                System.out.println("Media  : " + Parei.formatDiff(now, last, r.media));
+            }
+        }
+        if (results != null && results.length > 1) {
             System.out.println();
-            System.out.println("Metade  50: " + Parei.formatDiff(now, last, r050.metade));
-            System.out.println("Metade 100: " + Parei.formatDiff(now, last, r100.metade));
-            System.out.println("Metade 200: " + Parei.formatDiff(now, last, r200.metade));
-            System.out.println("Metade 400: " + Parei.formatDiff(now, last, r400.metade));
+        }
+    }
+
+    private static void printMetade(long now, long last, Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Metade " + r.limit + ": " + Parei.formatDiff(now, last, r.metade));
+            } else {
+                System.out.println("Metade : " + Parei.formatDiff(now, last, r.metade));
+            }
+        }
+        if (results != null && results.length > 1) {
             System.out.println();
-            System.out.println("Mediana  50: " + Parei.formatDiff(now, last, r050.mediana));
-            System.out.println("Mediana 100: " + Parei.formatDiff(now, last, r100.mediana));
-            System.out.println("Mediana 200: " + Parei.formatDiff(now, last, r200.mediana));
-            System.out.println("Mediana 400: " + Parei.formatDiff(now, last, r400.mediana));
+        }
+    }
+
+    private static void printMediana(long now, long last, Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Mediana " + r.limit + ": " + Parei.formatDiff(now, last, r.mediana));
+            } else {
+                System.out.println("Mediana: " + Parei.formatDiff(now, last, r.mediana));
+            }
+        }
+        if (results != null && results.length > 1) {
             System.out.println();
-            System.out.println("Menor  50: " + Parei.formatDiff(now, last, r050.min));
-            System.out.println("Menor 100: " + Parei.formatDiff(now, last, r100.min));
-            System.out.println("Menor 200: " + Parei.formatDiff(now, last, r200.min));
-            System.out.println("Menor 400: " + Parei.formatDiff(now, last, r400.min));
+        }
+    }
+
+    private static void printMenor(long now, long last, Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Menor " + r.limit + ": " + Parei.formatDiff(now, last, r.min));
+            } else {
+                System.out.println("Menor  : " + Parei.formatDiff(now, last, r.min));
+            }
+        }
+        if (results != null && results.length > 1) {
             System.out.println();
-            System.out.println("Usados  50:  " + r050.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r050.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r050.qtdBox).replace(",", ".") + " dias.");
-            System.out.println("Usados 100: " + r100.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r100.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r100.qtdBox).replace(",", ".") + " dias.");
-            System.out.println("Usados 200: " + r200.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r200.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r200.qtdBox).replace(",", ".") + " dias.");
-            System.out.println("Usados 400: " + r400.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r400.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r400.qtdBox).replace(",", ".") + " dias.");
+        }
+    }
+
+    private static void printUsados(Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Usados " + r.limit + ": " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBox).replace(",", ".") + " dias.");
+            } else {
+                System.out.println("Usados : " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBox).replace(",", ".") + " dias.");
+            }
         }
     }
 
@@ -162,7 +216,7 @@ public class Parei {
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
         double days = ((double) now - first) / (24 * 60 * 60 * 1000);
-        return new Result(max, media, (media + mediana) / 2, mediana, min, data.size(), days, ((double) days) / ((double) data.size() / 20));
+        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.size(), days, ((double) days) / ((double) data.size() / 20));
     }
 
     private static TreeMap<Long, Long> makeDatabase(int size) throws Exception {
@@ -272,6 +326,7 @@ public class Parei {
 
 class Result {
 
+    public final long limit;
     public final long max;
     public final long media;
     public final long metade;
@@ -281,7 +336,8 @@ class Result {
     public final double days;
     public final double qtdBox;
 
-    public Result(long max, long media, long metade, long mediana, long min, int size, double days, double qtdBox) {
+    public Result(long limit, long max, long media, long metade, long mediana, long min, int size, double days, double qtdBox) {
+        this.limit = limit;
         this.max = max;
         this.media = media;
         this.metade = metade;
