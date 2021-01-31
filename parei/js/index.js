@@ -4,8 +4,8 @@ var app = {
     initialize: function () {
         app.calcule();
     },
-    // "2021-01-25 04:04:18.419",
-    moment: [2021, 1, 25, 4, 4, 18, 419],
+    // "2021-01-31 01:20:24.948",
+    moment: [2021, 01, 31, 1, 20, 24, 948],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
