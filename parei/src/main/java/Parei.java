@@ -8,7 +8,7 @@ import java.util.TreeMap;
 public class Parei {
 
     private static final String[] DATA = {
-        "2021-02-01 10:45:40.959",
+        "2021-02-01 16:45:47.258", "2021-02-01 14:40:51.480", "2021-02-01 12:42:46.791", "2021-02-01 10:45:40.959",
         "2021-01-31 23:36:06.833", "2021-01-31 21:58:00.423", "2021-01-31 20:05:54.765", "2021-01-31 18:19:59.610", "2021-01-31 16:34:13.619",
         //
         "2021-01-31 01:20:24.948", "2021-01-31 00:31:15.127", "2021-01-31 00:11:51.904", "2021-01-30 23:19:48.167", "2021-01-30 22:49:48.774",
@@ -140,6 +140,7 @@ public class Parei {
             Parei.printMetade(now, last, results);
             Parei.printMediana(now, last, results);
             Parei.printMenor(now, last, results);
+            Parei.printExpirar(now, last, results);
             Parei.printUsados(results);
         }
     }
@@ -209,6 +210,19 @@ public class Parei {
         }
     }
 
+    private static void printExpirar(long now, long last, Result... results) {
+        for (Result r : results) {
+            if (results != null && results.length > 1) {
+                System.out.println("Expirar " + r.limit + ": " + Parei.formatDiff(now, last, r.min));
+            } else {
+                System.out.println("Expirar: " + Parei.formatDiff(now, last, r.last));
+            }
+        }
+        if (results != null && results.length > 1) {
+            System.out.println();
+        }
+    }
+
     private static void printUsados(Result... results) {
         for (Result r : results) {
             if (results != null && results.length > 1) {
@@ -227,7 +241,7 @@ public class Parei {
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
         double days = ((double) now - first) / (24 * 60 * 60 * 1000);
-        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.size(), days, ((double) days) / ((double) data.size() / 20));
+        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.lastEntry().getValue(), data.size(), days, ((double) days) / ((double) data.size() / 20));
     }
 
     private static TreeMap<Long, Long> makeDatabase(int size) throws Exception {
@@ -343,17 +357,19 @@ class Result {
     public final long metade;
     public final long mediana;
     public final long min;
+    public final long last;
     public final int size;
     public final double days;
     public final double qtdBox;
 
-    public Result(long limit, long max, long media, long metade, long mediana, long min, int size, double days, double qtdBox) {
+    public Result(long limit, long max, long media, long metade, long mediana, long min, long last, int size, double days, double qtdBox) {
         this.limit = limit;
         this.max = max;
         this.media = media;
         this.metade = metade;
         this.mediana = mediana;
         this.min = min;
+        this.last = last;
         this.size = size;
         this.days = days;
         this.qtdBox = qtdBox;
