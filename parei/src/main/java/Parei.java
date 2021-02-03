@@ -2,14 +2,15 @@
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.TreeMap;
+import java.util.List;
 
 public class Parei {
 
     private static final String[] DATA = {
         //
-        "2021-02-02 16:59:49.380", "2021-02-02 14:59:06.568", "2021-02-02 12:19:08.775",
+        "2021-02-02 21:12:46.693", "2021-02-02 19:02:20.166", "2021-02-02 16:59:49.380", "2021-02-02 14:59:06.568", "2021-02-02 12:19:08.775",
         "2021-02-02 10:40:11.601", "2021-02-02 01:04:43.921", "2021-02-02 00:35:01.948", "2021-02-01 23:13:32.609", "2021-02-01 21:00:39.110",
         "2021-02-01 18:52:19.612", "2021-02-01 16:45:47.258", "2021-02-01 14:40:51.480", "2021-02-01 12:42:46.791", "2021-02-01 10:45:40.959",
         "2021-01-31 23:36:06.833", "2021-01-31 21:58:00.423", "2021-01-31 20:05:54.765", "2021-01-31 18:19:59.610", "2021-01-31 16:34:13.619",
@@ -128,11 +129,11 @@ public class Parei {
     private static final NumberFormat NUMBER_PERCENT = new DecimalFormat("00.00");
 
     public static void main(String... args) throws Exception {
-        if (Parei.DATA.length == 0) {
+        if (Parei.DATA.length < 2) {
             System.out.println("Sem dados para calculo!");
         } else {
             long now = System.currentTimeMillis();
-            long last = Parei.makeDatabase(1).lastKey();
+            long last = Parei.makeDatabase(1).get(0);
             Result[] results = {
                 Parei.proccess(now, last, 400)
             };
@@ -237,67 +238,63 @@ public class Parei {
     }
 
     public static Result proccess(long now, long last, int size) throws Exception {
-        TreeMap<Long, Long> data = Parei.makeDatabase(size);
-        long first = data.firstKey();
+        List<Long> data = Parei.makeDatabase(size);
+        long expire = data.get(data.size() - 1);
         long max = Parei.getMaximo(data);
         long min = Parei.getMinimo(data);
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
-        double days = ((double) now - first) / (24 * 60 * 60 * 1000);
-        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.lastEntry().getValue(), data.size(), days, ((double) days) / ((double) data.size() / 20));
+        double days = ((double) now - expire) / (24 * 60 * 60 * 1000);
+        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.get(data.size() - 2) - expire, data.size(), days, ((double) days) / ((double) data.size() / 20));
     }
 
-    private static TreeMap<Long, Long> makeDatabase(int size) throws Exception {
+    private static List<Long> makeDatabase(int size) throws Exception {
         Arrays.sort(Parei.DATA);
-        TreeMap<Long, Long> data = new TreeMap<>();
-        Long last = null;
-        for (String time : Parei.DATA) {
-            Long actual = Parei.DATE_FORMAT.parse(time).getTime();
-            if (last == null) {
-                data.put(actual, 0L);
-            } else {
-                data.put(actual, actual - last);
-            }
-            last = actual;
+        List<Long> data = new ArrayList<>();
+        for (int i = Parei.DATA.length - 1; i >= 0 && data.size() < size; i--) {
+            data.add(Parei.DATE_FORMAT.parse(Parei.DATA[i]).getTime());
         }
         while (data.size() > size) {
-            data.remove(data.firstKey());
+            data.remove(data.size() - 1);
         }
         return data;
     }
 
-    private static Long getMaximo(TreeMap<Long, Long> data) {
-        Long max = data.firstEntry().getValue();
-        for (Long key : data.keySet()) {
-            Long value = data.get(key);
+    private static Long getMaximo(List<Long> data) {
+        Long max = Long.MIN_VALUE;
+        Long temp = data.get(0);
+        for (int i = 1; i < data.size(); i++) {
+            Long value = temp - data.get(i);
             if (value > max) {
                 max = value;
             }
+            temp = data.get(i);
         }
         return max;
     }
 
-    private static Long getMinimo(TreeMap<Long, Long> data) {
-        Long min = data.firstEntry().getValue();
-        for (Long key : data.keySet()) {
-            Long value = data.get(key);
-            if (value < min || min == 0) {
+    private static Long getMinimo(List<Long> data) {
+        Long min = Long.MAX_VALUE;
+        Long temp = data.get(0);
+        for (int i = 1; i < data.size(); i++) {
+            Long value = temp - data.get(i);
+            if (value < min) {
                 min = value;
             }
+            temp = data.get(i);
         }
         return min;
     }
 
-    private static long getMedia(TreeMap<Long, Long> data) {
-        Long sum = 0L;
-        for (Long key : data.keySet()) {
-            sum = sum + data.get(key);
-        }
-        return (sum / data.size());
+    private static long getMedia(List<Long> data) {
+        return (data.get(0) - data.get(data.size() - 1)) / data.size();
     }
 
-    private static long getMediana(TreeMap<Long, Long> data) {
-        Long[] diffs = data.values().toArray(new Long[0]);
+    private static long getMediana(List<Long> data) {
+        Long[] diffs = new Long[data.size() - 1];
+        for (int i = 0; i < diffs.length; i++) {
+            diffs[i] = data.get(i) - data.get(i + 1);
+        }
         Arrays.sort(diffs);
         if (diffs.length == 0) {
             return 0;
