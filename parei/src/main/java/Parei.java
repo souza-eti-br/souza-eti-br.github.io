@@ -10,7 +10,10 @@ public class Parei {
 
     private static final String[] DATA = {
         //
-        "2021-02-05 16:32:03.293",
+        "2021-02-07 23:43:10.799", "2021-02-07 21:45:24.481", "2021-02-07 19:52:58.586", "2021-02-07 19:24:14.114", "2021-02-07 18:45:48.889",
+        "2021-02-07 16:44:39.917", "2021-02-07 13:38:19.633", "2021-02-07 08:04:19.678", "2021-02-07 04:26:24.715", "2021-02-07 01:36:16.101",
+        "2021-02-06 23:20:31.630", "2021-02-06 21:04:11.475", "2021-02-06 16:53:33.352", "2021-02-06 14:54:31.323", "2021-02-06 12:50:53.973",
+        "2021-02-06 10:25:28.053", "2021-02-06 00:04:57.924", "2021-02-05 21:35:04.939", "2021-02-05 19:01:49.764", "2021-02-05 16:32:03.293",
         //
         "2021-02-05 14:52:20.849", "2021-02-05 12:27:26.413", "2021-02-05 10:42:58.176", "2021-02-05 00:42:00.896", "2021-02-04 22:24:50.088",
         "2021-02-04 20:05:23.249", "2021-02-04 17:48:39.493", "2021-02-04 15:30:59.137", "2021-02-04 12:08:27.778", "2021-02-04 09:40:09.878",
@@ -225,9 +228,9 @@ public class Parei {
     private static void printExpirar(long now, long last, Result... results) {
         for (Result r : results) {
             if (results != null && results.length > 1) {
-                System.out.println("Expirar " + r.limit + ": " + Parei.formatDiff(now, last, r.min));
+                System.out.println("Expirar " + r.limit + ": " + Parei.formatDiff(now, last, r.min) + " (" + Parei.DATE_FORMAT.format(r.lastDate) + ")");
             } else {
-                System.out.println("Expirar: " + Parei.formatDiff(now, last, r.last));
+                System.out.println("Expirar: " + Parei.formatDiff(now, last, r.last) + " (" + Parei.DATE_FORMAT.format(r.lastDate) + ")");
             }
         }
         if (results != null && results.length > 1) {
@@ -253,7 +256,7 @@ public class Parei {
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
         double days = ((double) now - expire) / (24 * 60 * 60 * 1000);
-        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.get(data.size() - 2) - expire, data.size(), days, ((double) days) / ((double) data.size() / 20));
+        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.get(data.size() - 2) - expire, data.size(), days, ((double) days) / ((double) data.size() / 20), data.get(data.size() - 1));
     }
 
     private static List<Long> makeDatabase(int size) throws Exception {
@@ -369,8 +372,9 @@ class Result {
     public final int size;
     public final double days;
     public final double qtdBox;
+    public final long lastDate;
 
-    public Result(long limit, long max, long media, long metade, long mediana, long min, long last, int size, double days, double qtdBox) {
+    public Result(long limit, long max, long media, long metade, long mediana, long min, long last, int size, double days, double qtdBox, long lastDate) {
         this.limit = limit;
         this.max = max;
         this.media = media;
@@ -381,5 +385,6 @@ class Result {
         this.size = size;
         this.days = days;
         this.qtdBox = qtdBox;
+        this.lastDate = lastDate;
     }
 }
