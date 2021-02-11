@@ -9,8 +9,8 @@ import java.util.List;
 public class Parei {
 
     private static final String[] DATA = {
-        //
-        "2021-02-11 09:53:47.566", "2021-02-11 00:25:15.471",
+        "2021-02-11 17:54:12.327", "2021-02-11 15:46:13.259",
+        "2021-02-11 14:14:31.416", "2021-02-11 12:46:57.886", "2021-02-11 11:17:42.880", "2021-02-11 09:53:47.566", "2021-02-11 00:25:15.471",
         "2021-02-10 23:04:48.511", "2021-02-10 22:04:13.678", "2021-02-10 21:01:37.918", "2021-02-10 19:40:50.963", "2021-02-10 17:56:25.835",
         //
         "2021-02-10 15:42:41.582", "2021-02-10 13:58:43.206", "2021-02-10 11:56:45.486", "2021-02-10 09:55:48.917", "2021-02-10 00:27:00.848",
@@ -249,9 +249,14 @@ public class Parei {
     private static void printUsados(Result... results) {
         for (Result r : results) {
             if (results != null && results.length > 1) {
-                System.out.println("Usados " + r.limit + ": " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBox).replace(",", ".") + " dias.");
+                System.out.println("Usados ate agora " + r.limit + " : " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysNow).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxNow).replace(",", ".") + " dias.");
             } else {
-                System.out.println("Usados : " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBox).replace(",", ".") + " dias.");
+                System.out.println("Usados ate agora : " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysNow).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxNow).replace(",", ".") + " dias.");
+            }
+            if (results != null && results.length > 1) {
+                System.out.println("Usados ate ultimo " + r.limit + ": " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysLast).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxLast).replace(",", ".") + " dias.");
+            } else {
+                System.out.println("Usados ate ultimo: " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysLast).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxLast).replace(",", ".") + " dias.");
             }
         }
     }
@@ -259,12 +264,14 @@ public class Parei {
     public static Result proccess(long now, long last, int size) throws Exception {
         List<Long> data = Parei.makeDatabase(size);
         long expire = data.get(data.size() - 1);
+        long first = data.get(0);
         long max = Parei.getMaximo(data);
         long min = Parei.getMinimo(data);
         long media = Parei.getMedia(data);
         long mediana = Parei.getMediana(data);
-        double days = ((double) now - expire) / (24 * 60 * 60 * 1000);
-        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.get(data.size() - 2) - expire, data.size(), days, ((double) days) / ((double) data.size() / 20), data.get(data.size() - 1));
+        double daysNow = ((double) now - expire) / (24 * 60 * 60 * 1000);
+        double daysLast = ((double) first - expire) / (24 * 60 * 60 * 1000);
+        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.get(data.size() - 2) - expire, data.size(), daysNow, ((double) daysNow) / ((double) data.size() / 20), daysLast, ((double) daysLast) / ((double) data.size() / 20), expire);
     }
 
     private static List<Long> makeDatabase(int size) throws Exception {
@@ -378,11 +385,13 @@ class Result {
     public final long min;
     public final long last;
     public final int size;
-    public final double days;
-    public final double qtdBox;
+    public final double daysNow;
+    public final double qtdBoxNow;
+    public final double daysLast;
+    public final double qtdBoxLast;
     public final long lastDate;
 
-    public Result(long limit, long max, long media, long metade, long mediana, long min, long last, int size, double days, double qtdBox, long lastDate) {
+    public Result(long limit, long max, long media, long metade, long mediana, long min, long last, int size, double daysNow, double qtdBoxNow, double daysLast, double qtdBoxLast, long lastDate) {
         this.limit = limit;
         this.max = max;
         this.media = media;
@@ -391,8 +400,10 @@ class Result {
         this.min = min;
         this.last = last;
         this.size = size;
-        this.days = days;
-        this.qtdBox = qtdBox;
+        this.daysNow = daysNow;
+        this.qtdBoxNow = qtdBoxNow;
+        this.daysLast = daysLast;
+        this.qtdBoxLast = qtdBoxLast;
         this.lastDate = lastDate;
     }
 }
