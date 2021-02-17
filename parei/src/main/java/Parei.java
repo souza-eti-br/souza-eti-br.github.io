@@ -9,8 +9,19 @@ import java.util.List;
 public class Parei {
 
     private static final String[] DATA = {
+        // credeciamento banco central 4 verduras dois legumes
+        "2021-02-16 23:51:30.262", "2021-02-16 21:27:19.204", "2021-02-16 19:44:21.828", "2021-02-16 17:22:42.938",
+        "2021-02-16 15:27:42.422", "2021-02-16 13:45:05.724", "2021-02-16 11:58:40.225", "2021-02-16 09:38:34.002", "2021-02-15 22:38:53.825",
         //
-        "2021-02-12 17:15:55.705", "2021-02-12 14:31:51.424", "2021-02-12 13:08:05.731",
+        "2021-02-15 20:42:52.560", "2021-02-15 18:08:35.066", "2021-02-15 16:30:11.411", "2021-02-15 14:48:30.288", "2021-02-15 13:07:04.190",
+        "2021-02-15 11:26:03.436", "2021-02-15 09:40:21.159", "2021-02-15 04:46:52.428", "2021-02-15 00:46:52.428", "2021-02-14 23:26:29.558",
+        "2021-02-14 22:04:55.835", "2021-02-14 20:33:57.550", "2021-02-14 18:57:30.990", "2021-02-14 17:25:31.176", "2021-02-14 15:49:36.678",
+        "2021-02-14 14:19:39.176", "2021-02-14 12:29:49.610", "2021-02-14 10:54:59.386", "2021-02-13 23:24:52.194", "2021-02-13 21:12:14.465",
+        //
+        "2021-02-13 19:52:45.086", "2021-02-13 18:31:51.700", "2021-02-13 17:23:35.991", "2021-02-13 16:16:20.591", "2021-02-13 15:09:23.185",
+        "2021-02-13 13:49:42.081", "2021-02-13 12:33:19.298", "2021-02-13 11:26:10.157", "2021-02-13 07:26:10.157", "2021-02-13 03:26:10.157",
+        "2021-02-13 00:26:02.120", "2021-02-12 23:34:24.525", "2021-02-12 22:28:30.554", "2021-02-12 21:59:46.307", "2021-02-12 20:55:30.258",
+        "2021-02-12 19:49:21.912", "2021-02-12 18:39:47.573", "2021-02-12 17:15:55.705", "2021-02-12 14:31:51.424", "2021-02-12 13:08:05.731",
         //
         "2021-02-12 11:48:03.998", "2021-02-12 10:06:08.970", "2021-02-12 00:26:02.020", "2021-02-11 23:48:16.879", "2021-02-11 22:36:15.168",
         "2021-02-11 21:31:06.537", "2021-02-11 20:27:56.558", "2021-02-11 19:21:38.316", "2021-02-11 17:54:12.327", "2021-02-11 15:46:13.259",
@@ -154,184 +165,49 @@ public class Parei {
         if (Parei.DATA.length < 2) {
             System.out.println("Sem dados para calculo!");
         } else {
+            // Agora
             long now = System.currentTimeMillis();
-            long last = Parei.makeDatabase(1).get(0);
-            Result[] results = {
-                Parei.proccess(now, last, 400)
-            };
+            // definir quantidade maxima de registros
+            int size = 200;
+            // reduzir
+            Arrays.sort(Parei.DATA, (String time1, String time2) -> time2.compareTo(time1));
+            List<Long> data = new ArrayList<>();
+            for (int i = 0; i < Parei.DATA.length && i < size; i++) {
+                data.add(Parei.DATE_FORMAT.parse(Parei.DATA[i]).getTime());
+            }
+            // redefinido quantidade maxima de registros de acordo com o que tinha
+            size = data.size();
+            // pegar o ultimo
+            long last = data.get(0);
+            // Pegar proximo data e tempo a expirar
+            long expire = data.get(size - 1);
+            long expireDiff = data.get(size - 2) - expire;
+            // calcular media
+            long media = (last - expire) / size;
+            // calcular mediana e ultima diferença
+            Long[] diffs = new Long[data.size() - 1];
+            for (int i = 0; i < diffs.length; i++) {
+                diffs[i] = data.get(i) - data.get(i + 1);
+            }
+            Arrays.sort(diffs);
+            long mediana;
+            if (diffs.length % 2 == 0) {
+                mediana = (diffs[(diffs.length / 2) - 1] + diffs[diffs.length / 2]) / 2;
+            } else {
+                mediana = diffs[(diffs.length - 1) / 2];
+            }
+            // Quantidade de dias usadas no calculo
+            double days = ((double) last - expire) / (24 * 60 * 60 * 1000);
+            // Quantidade de dias médio por carteira
+            double boxDays = ((double) days) / ((double) data.size() / 20);
+            // Mostrar resultado
             System.out.println("Ultimo: " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
             System.out.println();
-            Parei.printMaior(now, last, results);
-            Parei.printMedia(now, last, results);
-            Parei.printMetade(now, last, results);
-            Parei.printMediana(now, last, results);
-            Parei.printMenor(now, last, results);
-            Parei.printExpirar(now, last, results);
+            System.out.println("Media  : " + Parei.formatDiff(now, last, media));
+            System.out.println("Mediana: " + Parei.formatDiff(now, last, mediana));
+            System.out.println("Expirar: " + Parei.formatDiff(now, last, expireDiff) + " (" + Parei.DATE_FORMAT.format(expire) + ")");
             System.out.println();
-            Parei.printUsados(results);
-        }
-    }
-
-    private static void printMaior(long now, long last, Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Maior " + r.limit + ": " + Parei.formatDiff(now, last, r.max));
-            } else {
-                System.out.println("Maior  : " + Parei.formatDiff(now, last, r.max));
-            }
-        }
-        if (results != null && results.length > 1) {
-            System.out.println();
-        }
-    }
-
-    private static void printMedia(long now, long last, Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Media " + r.limit + ": " + Parei.formatDiff(now, last, r.media));
-            } else {
-                System.out.println("Media  : " + Parei.formatDiff(now, last, r.media));
-            }
-        }
-        if (results != null && results.length > 1) {
-            System.out.println();
-        }
-    }
-
-    private static void printMetade(long now, long last, Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Metade " + r.limit + ": " + Parei.formatDiff(now, last, r.metade));
-            } else {
-                System.out.println("Metade : " + Parei.formatDiff(now, last, r.metade));
-            }
-        }
-        if (results != null && results.length > 1) {
-            System.out.println();
-        }
-    }
-
-    private static void printMediana(long now, long last, Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Mediana " + r.limit + ": " + Parei.formatDiff(now, last, r.mediana));
-            } else {
-                System.out.println("Mediana: " + Parei.formatDiff(now, last, r.mediana));
-            }
-        }
-        if (results != null && results.length > 1) {
-            System.out.println();
-        }
-    }
-
-    private static void printMenor(long now, long last, Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Menor " + r.limit + ": " + Parei.formatDiff(now, last, r.min));
-            } else {
-                System.out.println("Menor  : " + Parei.formatDiff(now, last, r.min));
-            }
-        }
-        if (results != null && results.length > 1) {
-            System.out.println();
-        }
-    }
-
-    private static void printExpirar(long now, long last, Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Expirar " + r.limit + ": " + Parei.formatDiff(now, last, r.min) + " (" + Parei.DATE_FORMAT.format(r.lastDate) + ")");
-            } else {
-                System.out.println("Expirar: " + Parei.formatDiff(now, last, r.last) + " (" + Parei.DATE_FORMAT.format(r.lastDate) + ")");
-            }
-        }
-        if (results != null && results.length > 1) {
-            System.out.println();
-        }
-    }
-
-    private static void printUsados(Result... results) {
-        for (Result r : results) {
-            if (results != null && results.length > 1) {
-                System.out.println("Usados ate agora " + r.limit + " : " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysNow).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxNow).replace(",", ".") + " dias.");
-            } else {
-                System.out.println("Usados ate agora : " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysNow).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxNow).replace(",", ".") + " dias.");
-            }
-            if (results != null && results.length > 1) {
-                System.out.println("Usados ate ultimo " + r.limit + ": " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysLast).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxLast).replace(",", ".") + " dias.");
-            } else {
-                System.out.println("Usados ate ultimo: " + r.size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(r.daysLast).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(r.qtdBoxLast).replace(",", ".") + " dias.");
-            }
-        }
-    }
-
-    public static Result proccess(long now, long last, int size) throws Exception {
-        List<Long> data = Parei.makeDatabase(size);
-        long expire = data.get(data.size() - 1);
-        long first = data.get(0);
-        long max = Parei.getMaximo(data);
-        long min = Parei.getMinimo(data);
-        long media = Parei.getMedia(data);
-        long mediana = Parei.getMediana(data);
-        double daysNow = ((double) now - expire) / (24 * 60 * 60 * 1000);
-        double daysLast = ((double) first - expire) / (24 * 60 * 60 * 1000);
-        return new Result(size, max, media, (media + mediana) / 2, mediana, min, data.get(data.size() - 2) - expire, data.size(), daysNow, ((double) daysNow) / ((double) data.size() / 20), daysLast, ((double) daysLast) / ((double) data.size() / 20), expire);
-    }
-
-    private static List<Long> makeDatabase(int size) throws Exception {
-        Arrays.sort(Parei.DATA);
-        List<Long> data = new ArrayList<>();
-        for (int i = Parei.DATA.length - 1; i >= 0 && data.size() < size; i--) {
-            data.add(Parei.DATE_FORMAT.parse(Parei.DATA[i]).getTime());
-        }
-        while (data.size() > size) {
-            data.remove(data.size() - 1);
-        }
-        return data;
-    }
-
-    private static Long getMaximo(List<Long> data) {
-        Long max = Long.MIN_VALUE;
-        Long temp = data.get(0);
-        for (int i = 1; i < data.size(); i++) {
-            Long value = temp - data.get(i);
-            if (value > max) {
-                max = value;
-            }
-            temp = data.get(i);
-        }
-        return max;
-    }
-
-    private static Long getMinimo(List<Long> data) {
-        Long min = Long.MAX_VALUE;
-        Long temp = data.get(0);
-        for (int i = 1; i < data.size(); i++) {
-            Long value = temp - data.get(i);
-            if (value < min) {
-                min = value;
-            }
-            temp = data.get(i);
-        }
-        return min;
-    }
-
-    private static long getMedia(List<Long> data) {
-        return (data.get(0) - data.get(data.size() - 1)) / data.size();
-    }
-
-    private static long getMediana(List<Long> data) {
-        Long[] diffs = new Long[data.size() - 1];
-        for (int i = 0; i < diffs.length; i++) {
-            diffs[i] = data.get(i) - data.get(i + 1);
-        }
-        Arrays.sort(diffs);
-        if (diffs.length == 0) {
-            return 0;
-        } else if (diffs.length % 2 == 0) {
-            return (diffs[(diffs.length / 2) - 1] + diffs[diffs.length / 2]) / 2;
-        } else {
-            return diffs[(diffs.length - 1) / 2];
+            System.out.println("Calculado: " + size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(boxDays).replace(",", ".") + " dias.");
         }
     }
 
@@ -376,38 +252,5 @@ public class Parei {
             formatted = "0" + formatted;
         }
         return formatted;
-    }
-}
-
-class Result {
-
-    public final long limit;
-    public final long max;
-    public final long media;
-    public final long metade;
-    public final long mediana;
-    public final long min;
-    public final long last;
-    public final int size;
-    public final double daysNow;
-    public final double qtdBoxNow;
-    public final double daysLast;
-    public final double qtdBoxLast;
-    public final long lastDate;
-
-    public Result(long limit, long max, long media, long metade, long mediana, long min, long last, int size, double daysNow, double qtdBoxNow, double daysLast, double qtdBoxLast, long lastDate) {
-        this.limit = limit;
-        this.max = max;
-        this.media = media;
-        this.metade = metade;
-        this.mediana = mediana;
-        this.min = min;
-        this.last = last;
-        this.size = size;
-        this.daysNow = daysNow;
-        this.qtdBoxNow = qtdBoxNow;
-        this.daysLast = daysLast;
-        this.qtdBoxLast = qtdBoxLast;
-        this.lastDate = lastDate;
     }
 }
