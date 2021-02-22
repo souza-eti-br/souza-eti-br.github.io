@@ -10,7 +10,8 @@ public class Parei {
 
     private static final String[] DATA = {
         //
-        "2021-02-22 10:14:36.340", "2021-02-21 23:45:09.509", "2021-02-21 23:04:57.975",
+        "2021-02-22 16:12:00.576",
+        "2021-02-22 14:09:07.579", "2021-02-22 12:10:18.714", "2021-02-22 10:14:36.340", "2021-02-21 23:45:09.509", "2021-02-21 23:04:57.975",
         "2021-02-21 22:25:56.773", "2021-02-21 20:55:56.773", "2021-02-21 19:38:13.485", "2021-02-21 18:17:43.077", "2021-02-21 16:36:12.571",
         "2021-02-21 14:40:10.865", "2021-02-21 12:39:29.204", "2021-02-21 10:32:32.190", "2021-02-20 22:44:56.118", "2021-02-20 20:47:03.043",
         //
@@ -171,6 +172,7 @@ public class Parei {
     };
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private static final NumberFormat NUMBER_PERCENT = new DecimalFormat("00.00");
+    private static final NumberFormat NUMBER_DIFF = new DecimalFormat("0000000000");
 
     public static void main(String... args) throws Exception {
         if (Parei.DATA.length < 2) {
@@ -196,16 +198,19 @@ public class Parei {
             // calcular media
             long media = (last - expire) / size;
             // calcular mediana e ultima diferença
-            Long[] diffs = new Long[data.size() - 1];
+            String[] diffs = new String[data.size() - 1];
             for (int i = 0; i < diffs.length; i++) {
-                diffs[i] = data.get(i) - data.get(i + 1);
+                diffs[i] = Parei.NUMBER_DIFF.format(data.get(i) - data.get(i + 1)) + " " + data.get(i);
             }
             Arrays.sort(diffs);
             long mediana;
+            String medianaReff;
             if (diffs.length % 2 == 0) {
-                mediana = (diffs[(diffs.length / 2) - 1] + diffs[diffs.length / 2]) / 2;
+                mediana = (Parei.NUMBER_DIFF.parse(diffs[(diffs.length / 2) - 1].split(" ")[0]).longValue() + Parei.NUMBER_DIFF.parse(diffs[diffs.length / 2].split(" ")[0]).longValue()) / 2;
+                medianaReff = " (" + Parei.DATE_FORMAT.format(Long.valueOf(diffs[(diffs.length / 2) - 1].split(" ")[1])) + " e " + Parei.DATE_FORMAT.format(Long.valueOf(diffs[diffs.length / 2].split(" ")[1])) + ")";
             } else {
-                mediana = diffs[(diffs.length - 1) / 2];
+                mediana = Parei.NUMBER_DIFF.parse(diffs[(diffs.length - 1) / 2].split(" ")[0]).longValue();
+                medianaReff = " (" + Parei.DATE_FORMAT.format(Long.valueOf(diffs[(diffs.length - 1) / 2].split(" ")[1])) + ")";
             }
             // Quantidade de dias usadas no calculo
             double days = ((double) last - expire) / (24 * 60 * 60 * 1000);
@@ -215,7 +220,7 @@ public class Parei {
             System.out.println("Ultimo: " + Parei.DATE_FORMAT.format(last) + " > Passou " + Parei.formatLongToTime(now - last) + "," + " Agora: \"" + Parei.DATE_FORMAT.format(now) + "\",");
             System.out.println();
             System.out.println("Media  : " + Parei.formatDiff(now, last, media));
-            System.out.println("Mediana: " + Parei.formatDiff(now, last, mediana));
+            System.out.println("Mediana: " + Parei.formatDiff(now, last, mediana) + medianaReff);
             System.out.println("Expirar: " + Parei.formatDiff(now, last, expireDiff) + " (" + Parei.DATE_FORMAT.format(expire) + ")");
             System.out.println();
             System.out.println("Calculado: " + size + " registros nos ultimos " + Parei.NUMBER_PERCENT.format(days).replace(",", ".") + " dias > Uma cateira a cada " + Parei.NUMBER_PERCENT.format(boxDays).replace(",", ".") + " dias.");
