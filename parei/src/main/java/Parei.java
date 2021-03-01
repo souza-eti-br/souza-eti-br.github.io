@@ -10,7 +10,9 @@ public class Parei {
 
     private static final String[] DATA = {
         //
-        "2021-03-01 12:37:24.147", "2021-03-01 12:00:32.917", "2021-03-01 11:21:55.312", "2021-03-01 10:48:17.321"
+        "2021-03-01 18:50:14.944",
+        "2021-03-01 17:56:06.614", "2021-03-01 16:58:09.562", "2021-03-01 15:59:19.653", "2021-03-01 15:06:30.906", "2021-03-01 14:06:17.011",
+        "2021-03-01 13:16:32.860", "2021-03-01 12:37:24.147", "2021-03-01 12:00:32.917", "2021-03-01 11:21:55.312", "2021-03-01 10:48:17.321"
     };
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private static final NumberFormat NUMBER_PERCENT = new DecimalFormat("00.00");
