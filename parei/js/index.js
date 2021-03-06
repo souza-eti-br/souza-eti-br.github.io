@@ -1,11 +1,11 @@
-var showNow = true;
+var showNow = false;
 var textNow = "";
 var app = {
     initialize: function () {
         app.calcule();
     },
     // "2021-02-28 02:40:33.531",
-    moment: [2021, 3, 4, 0, 4, 35, 994],
+    moment: [2021, 3, 6, 2, 45, 0, 589],
     now: [0, 0, 0, 0, 0, 0, 0],
     formatNumber: function (number, size) {
         var format = "" + number;
