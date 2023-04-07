@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <title>Souza.eti.br</title>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+        <meta name="description" content="Souza.eti.br"/>
+        <meta name="author" content="Alan Moraes Souza"/>
+        <link type="image/png" rel="shortcut icon" href="images/favicon.png"/>
+        <link type="text/css" rel="stylesheet" href="styles/index.css"/>
+        <script>
+            function changeLanguage(value) {
+                if (value === "pt") {
+                    document.getElementById("welcome").innerHTML = "Bem-vindo!";
+                    document.getElementById("welcome-text").innerHTML = "Está página é para uso pessoal. Abaixo você pode acessar meu LinkedIn. :)";
+                    document.getElementById("footer-label").innerHTML = "Desenvolvido por";
+                } else if (value === "es") {
+                    document.getElementById("welcome").innerHTML = "Bienvenidos!";
+                    document.getElementById("welcome-text").innerHTML = "Esta página es para uso personal. A continuación puedes acceder a mi LinkedIn. :)";
+                    document.getElementById("footer-label").innerHTML = "Desarrollado por";
+                } else if (value === "en") {
+                    document.getElementById("welcome").innerHTML = "Welcome!";
+                    document.getElementById("welcome-text").innerHTML = "This page is for personal use. Below you can access my LinkedIn. :)";
+                    document.getElementById("footer-label").innerHTML = "Developed by";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <img class="header-logo" alt="Souza.eti.br" src="images/favicon.png"/>
+            <select id="i18n-selector" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="pt" selected>Português</option>
+            </select>
+        </div>
+        <div id="main">
+            <div style="text-align: center;">
+                <h1 id="welcome">Bem-vindo!</h1>
+                <span id="welcome-text">Está página é para uso pessoal. Abaixo você pode acessar meu LinkedIn. :)</span><br/>
+                <a href="https://www.linkedin.com/in/alanmsouza/" target="_blank">https://www.linkedin.com/in/alanmsouza/</a>
+            </div>
+        </div>
+        <div class="footer">
+            <span id="footer-label">Desenvolvido por</span>: <a class="footer-link" target="_blank" href="mailto:alan@souza.eti.br">Alan Moraes Souza</a>
+        </div>
+    </body>
+</html>
