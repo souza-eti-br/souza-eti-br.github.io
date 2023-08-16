@@ -107,9 +107,6 @@ var app = {
   execution: function (date) {
     document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
     document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
-    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] > 0 || date[4] >= 20) && (document.getElementById("info1").className == "red")) {
-      document.getElementById("info1").className = "green";
-    }
     if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 2) && (document.getElementById("info2").className == "red")) {
       document.getElementById("info2").className = "green";
     }
