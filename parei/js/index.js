@@ -1,3 +1,4 @@
+var showNow = true;
 var textNow = "";
 var app = {
   initialize: function () {
@@ -107,6 +108,15 @@ var app = {
   execution: function (date) {
     document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
     document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
+    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] > 0 || date[4] >= 20) && (document.getElementById("info1").className == "red")) {
+      document.getElementById("info1").className = "green";
+    }
+    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 2) && (document.getElementById("info2").className == "red")) {
+      document.getElementById("info2").className = "green";
+    }
+    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 8) && (document.getElementById("info3").className == "red")) {
+      document.getElementById("info3").className = "green";
+    }
     if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 12) && (document.getElementById("info4").className == "red")) {
       document.getElementById("info4").className = "yellow";
     }
@@ -137,6 +147,35 @@ var app = {
   calcule: function () {
     var now = new Date();
     app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
+    if (showNow) {
+      textNow = app.now[6] + "";
+      while (textNow.length < 3) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[5] + "." + textNow;
+      while (textNow.length < 6) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[4] + ":" + textNow;
+      while (textNow.length < 9) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[3] + ":" + textNow;
+      while (textNow.length < 12) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[2] + " " + textNow;
+      while (textNow.length < 15) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[1] + "-" + textNow;
+      while (textNow.length < 18) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[0] + "-" + textNow;
+      document.getElementById("myInput").value = textNow;
+      showNow = false;
+    }
     var diff = app.getDiffArray();
     document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
     app.execution(diff);
@@ -186,4 +225,11 @@ var app = {
     return diff;
   }
 };
+function myFunction() {
+  var copyText = document.getElementById("myInput");
+  copyText.value = textNow;
+  copyText.select();
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
 app.initialize();
