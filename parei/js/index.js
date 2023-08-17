@@ -64,10 +64,10 @@ var app = {
     }
   },
   formatDateTime: function (date) {
-    return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + ". " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
+    return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
   },
   showGeneric: function (id, text, value) {
-    var formatted = app.formatDecimal(value, 16 - (text.length - 4));
+    var formatted = app.formatDecimal(value, 16 - (text.length - 3));
     if (formatted) {
       document.getElementById(id).innerHTML = formatted + text;
     } else {
