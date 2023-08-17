@@ -64,19 +64,15 @@ var app = {
     }
   },
   formatDateTime: function (date) {
-    return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + "." + app.formatNumber(date[6], 1) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
+    return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + ". " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
   },
   showGeneric: function (id, text, value) {
-    var formatted = app.formatDecimal(value, 16 - (text.length - 5));
+    var formatted = app.formatDecimal(value, 16 - (text.length - 4));
     if (formatted) {
       document.getElementById(id).innerHTML = formatted + text;
     } else {
       document.getElementById(id + "-tr").style.display = "none";
     }
-  },
-  showDiffMiliSeconds: function (date) {
-    var diff = (date[0] * 31536000000) + (date[1] * 2628000000) + (date[2] * 86400000) + (date[3] * 3600000) + (date[4] * 60000) + (date[5] * 1000) + date[6];
-    app.showGeneric("miliseconds", " Milisegunds", diff);
   },
   showDiffSeconds: function (date) {
     var diff = (date[0] * 31536000) + (date[1] * 2628000) + (date[2] * 86400) + (date[3] * 3600) + (date[4] * 60) + date[5] + (date[6] * 0.001);
@@ -130,7 +126,6 @@ var app = {
     if ((date[0] >= 10) && (document.getElementById("info8").className == "red")) {
       document.getElementById("info8").className = "green";
     }
-    app.showDiffMiliSeconds(date);
     app.showDiffSeconds(date);
     app.showDiffMinutes(date);
     app.showDiffHours(date);
