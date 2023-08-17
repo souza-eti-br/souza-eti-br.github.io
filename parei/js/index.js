@@ -105,9 +105,6 @@ var app = {
   execution: function (date) {
     document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
     document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
-    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 8) && (document.getElementById("info3").className == "red")) {
-      document.getElementById("info3").className = "green";
-    }
     if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 12) && (document.getElementById("info4").className == "red")) {
       document.getElementById("info4").className = "yellow";
     }
@@ -140,7 +137,7 @@ var app = {
     var diff = app.getDiffArray();
     document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
     app.execution(diff);
-    setTimeout(app.calcule, 75);
+    setTimeout(app.calcule, 25);
   },
   getDiffArray: function () {
     var diff = [0, 0, 0, 0, 0, 0, 0];
