@@ -1,15 +1,14 @@
+var showNow = true;
+var textNow = "";
 var app = {
   initialize: function () {
     app.calcule();
   },
-  // 2023-08-16 19:26:22.219
-  moment: [2023, 8, 16, 19, 26, 22, 219],
+  // 2023-08-15 23:38:10.539
+  moment: [2023, 8 ,15, 23, 38, 10, 539],
   now: [0, 0, 0, 0, 0, 0, 0],
   formatNumber: function (number, size) {
     var format = "" + number;
-    if (format.length > size) {
-      format = format.substring(0, size);
-    }
     while (format.length < size) {
       format = "0" + format;
     }
@@ -64,15 +63,19 @@ var app = {
     }
   },
   formatDateTime: function (date) {
-    return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
+    return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + "." + app.formatNumber(date[6], 3) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
   },
   showGeneric: function (id, text, value) {
-    var formatted = app.formatDecimal(value, 16 - (text.length - 3));
+    var formatted = app.formatDecimal(value, 16 - (text.length - 7));
     if (formatted) {
       document.getElementById(id).innerHTML = formatted + text;
     } else {
       document.getElementById(id + "-tr").style.display = "none";
     }
+  },
+  showDiffMiliSeconds: function (date) {
+    var diff = (date[0] * 31536000000) + (date[1] * 2628000000) + (date[2] * 86400000) + (date[3] * 3600000) + (date[4] * 60000) + (date[5] * 1000) + date[6];
+    app.showGeneric("miliseconds", " Milisegundos", diff);
   },
   showDiffSeconds: function (date) {
     var diff = (date[0] * 31536000) + (date[1] * 2628000) + (date[2] * 86400) + (date[3] * 3600) + (date[4] * 60) + date[5] + (date[6] * 0.001);
@@ -105,6 +108,15 @@ var app = {
   execution: function (date) {
     document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
     document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
+    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] > 0 || date[4] >= 20) && (document.getElementById("info1").className == "red")) {
+      document.getElementById("info1").className = "green";
+    }
+    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 2) && (document.getElementById("info2").className == "red")) {
+      document.getElementById("info2").className = "green";
+    }
+    if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 8) && (document.getElementById("info3").className == "red")) {
+      document.getElementById("info3").className = "green";
+    }
     if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 12) && (document.getElementById("info4").className == "red")) {
       document.getElementById("info4").className = "yellow";
     }
@@ -123,6 +135,7 @@ var app = {
     if ((date[0] >= 10) && (document.getElementById("info8").className == "red")) {
       document.getElementById("info8").className = "green";
     }
+    app.showDiffMiliSeconds(date);
     app.showDiffSeconds(date);
     app.showDiffMinutes(date);
     app.showDiffHours(date);
@@ -134,6 +147,35 @@ var app = {
   calcule: function () {
     var now = new Date();
     app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
+    if (showNow) {
+      textNow = app.now[6] + "";
+      while (textNow.length < 3) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[5] + "." + textNow;
+      while (textNow.length < 6) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[4] + ":" + textNow;
+      while (textNow.length < 9) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[3] + ":" + textNow;
+      while (textNow.length < 12) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[2] + " " + textNow;
+      while (textNow.length < 15) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[1] + "-" + textNow;
+      while (textNow.length < 18) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[0] + "-" + textNow;
+      document.getElementById("myInput").value = textNow;
+      showNow = false;
+    }
     var diff = app.getDiffArray();
     document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
     app.execution(diff);
@@ -183,4 +225,11 @@ var app = {
     return diff;
   }
 };
+function myFunction() {
+  var copyText = document.getElementById("myInput");
+  copyText.value = textNow;
+  copyText.select();
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
 app.initialize();
