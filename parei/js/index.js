@@ -148,7 +148,7 @@ var app = {
     var diff = app.getDiffArray();
     document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
     app.execution(diff);
-    setTimeout(app.calcule, 25);
+    setTimeout(app.calcule, 1);
   },
   getDiffArray: function () {
     var diff = [0, 0, 0, 0, 0, 0, 0];
