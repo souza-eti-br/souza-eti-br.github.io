@@ -1,11 +1,9 @@
-var showNow = true;
-var textNow = "";
 var app = {
   initialize: function () {
     app.calcule();
   },
-  // 2023-08-15 23:38:10.539
-  moment: [2023, 8 ,15, 23, 38, 10, 539],
+  // 2023-08-21 21:32:56.854
+  moment: [2023, 8, 21, 21, 32, 56, 854],
   now: [0, 0, 0, 0, 0, 0, 0],
   formatNumber: function (number, size) {
     var format = "" + number;
@@ -147,35 +145,6 @@ var app = {
   calcule: function () {
     var now = new Date();
     app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
-    if (showNow) {
-      textNow = app.now[6] + "";
-      while (textNow.length < 3) {
-        textNow = "0" + textNow;
-      }
-      textNow = app.now[5] + "." + textNow;
-      while (textNow.length < 6) {
-        textNow = "0" + textNow;
-      }
-      textNow = app.now[4] + ":" + textNow;
-      while (textNow.length < 9) {
-        textNow = "0" + textNow;
-      }
-      textNow = app.now[3] + ":" + textNow;
-      while (textNow.length < 12) {
-        textNow = "0" + textNow;
-      }
-      textNow = app.now[2] + " " + textNow;
-      while (textNow.length < 15) {
-        textNow = "0" + textNow;
-      }
-      textNow = app.now[1] + "-" + textNow;
-      while (textNow.length < 18) {
-        textNow = "0" + textNow;
-      }
-      textNow = app.now[0] + "-" + textNow;
-      document.getElementById("myInput").value = textNow;
-      showNow = false;
-    }
     var diff = app.getDiffArray();
     document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
     app.execution(diff);
@@ -225,11 +194,4 @@ var app = {
     return diff;
   }
 };
-function myFunction() {
-  var copyText = document.getElementById("myInput");
-  copyText.value = textNow;
-  copyText.select();
-  document.execCommand("copy");
-  alert("Copied the text: " + copyText.value);
-}
 app.initialize();
