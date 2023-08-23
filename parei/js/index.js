@@ -1,3 +1,5 @@
+var showNow = true;
+var textNow = "";
 var app = {
   initialize: function () {
     app.calcule();
@@ -133,6 +135,9 @@ var app = {
     if ((date[0] >= 10) && (document.getElementById("info8").className == "red")) {
       document.getElementById("info8").className = "green";
     }
+    if ((date[0] >= 15) && (document.getElementById("info9").className == "red")) {
+      document.getElementById("info9").className = "green";
+    }
     app.showDiffMiliSeconds(date);
     app.showDiffSeconds(date);
     app.showDiffMinutes(date);
@@ -145,6 +150,35 @@ var app = {
   calcule: function () {
     var now = new Date();
     app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
+    if (showNow) {
+      textNow = app.now[6] + "";
+      while (textNow.length < 3) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[5] + "." + textNow;
+      while (textNow.length < 6) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[4] + ":" + textNow;
+      while (textNow.length < 9) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[3] + ":" + textNow;
+      while (textNow.length < 12) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[2] + " " + textNow;
+      while (textNow.length < 15) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[1] + "-" + textNow;
+      while (textNow.length < 18) {
+        textNow = "0" + textNow;
+      }
+      textNow = app.now[0] + "-" + textNow;
+      document.getElementById("myInput").value = textNow;
+      showNow = false;
+    }
     var diff = app.getDiffArray();
     document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
     app.execution(diff);
@@ -194,4 +228,11 @@ var app = {
     return diff;
   }
 };
+function myFunction() {
+  var copyText = document.getElementById("myInput");
+  copyText.value = textNow;
+  copyText.select();
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
 app.initialize();
