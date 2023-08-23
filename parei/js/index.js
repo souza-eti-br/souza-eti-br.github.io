@@ -2,8 +2,8 @@ var app = {
   initialize: function () {
     app.calcule();
   },
-  // 2023-08-21 21:32:56.854
-  moment: [2023, 8, 21, 21, 32, 56, 854],
+  // 2023-08-23 13:10:26.887
+  moment: [2023, 8, 23, 13, 10, 26, 887],
   now: [0, 0, 0, 0, 0, 0, 0],
   formatNumber: function (number, size) {
     var format = "" + number;
