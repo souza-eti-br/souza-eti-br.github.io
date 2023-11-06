@@ -245,49 +245,6 @@ var app = {
         app.diff = app.now.getTime() - app.moment.getTime();
         app.execution();
         setTimeout(app.calcule, 1);
-    },
-    getDiffArray: function () {
-        var diff = [0, 0, 0, 0, 0, 0, 0];
-        diff[6] = app.now[6] - app.moment[6];
-        diff[5] = app.now[5] - app.moment[5];
-        diff[4] = app.now[4] - app.moment[4];
-        diff[3] = app.now[3] - app.moment[3];
-        diff[2] = app.now[2] - app.moment[2];
-        diff[1] = app.now[1] - app.moment[1];
-        diff[0] = app.now[0] - app.moment[0];
-        if (diff[6] < 0) {
-            diff[6] = diff[6] + 1000;
-            diff[5] = diff[5] - 1;
-        }
-        if (diff[5] < 0) {
-            diff[5] = diff[5] + 60;
-            diff[4] = diff[4] - 1;
-        }
-        if (diff[4] < 0) {
-            diff[4] = diff[4] + 60;
-            diff[3] = diff[3] - 1;
-        }
-        if (diff[3] < 0) {
-            diff[3] = diff[3] + 24;
-            diff[2] = diff[2] - 1;
-        }
-        if (diff[2] < 0) {
-            if ([2, 4, 6, 8, 9, 11, 1].indexOf(app.now[1]) !== -1) {
-                diff[2] = diff[2] + 31;
-            } else if ([5, 7, 10, 12].indexOf(app.now[1]) !== -1) {
-                diff[2] = diff[2] + 30;
-            } else if ((app.now[0] % 4 === 0) && (app.now[0] % 400 !== 0)) {
-                diff[2] = diff[2] + 29;
-            } else {
-                diff[2] = diff[2] + 28;
-            }
-            diff[1] = diff[1] - 1;
-        }
-        if (diff[1] < 0) {
-            diff[1] = diff[1] + 12;
-            diff[0] = diff[0] - 1;
-        }
-        return diff;
     }
 };
 function myFunction() {
