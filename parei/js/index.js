@@ -2,11 +2,19 @@ var showNow = true;
 var textNow = "";
 var app = {
     initialize: function () {
+        // 15:44:23.058 06/11/2023
+        app.moment.setHours(15);
+        app.moment.setMinutes(44);
+        app.moment.setSeconds(23);
+        app.moment.setMilliseconds(58);
+        app.moment.setDate(6);
+        app.moment.setMonth(11 - 1);
+        app.moment.setFullYear(2023);
         app.calcule();
     },
-    // 2023-08-23 13:10:26.887
-    moment: [2023, 8, 23, 13, 10, 26, 887],
-    now: [0, 0, 0, 0, 0, 0, 0],
+    moment: new Date(),
+    now: new Date(),
+    diff: 0,
     formatNumber: function (number, size) {
         var format = "" + number;
         while (format.length < size) {
@@ -63,7 +71,31 @@ var app = {
         }
     },
     formatDateTime: function (date) {
-        return app.formatNumber(date[3], 2) + ":" + app.formatNumber(date[4], 2) + ":" + app.formatNumber(date[5], 2) + "." + app.formatNumber(date[6], 3) + " " + app.formatNumber(date[2], 2) + "/" + app.formatNumber(date[1], 2) + "/" + app.formatNumber(date[0], 4);
+        let text = (date.getMonth() + 1) + "/" + date.getFullYear();
+        while (text.length < 7) {
+            text = "0" + text;
+        }
+        text = date.getDate() + "/" + text;
+        while (text.length < 10) {
+            text = "0" + text;
+        }
+        text = date.getMilliseconds() + " " + text;
+        while (text.length < 14) {
+            text = "0" + text;
+        }
+        text = date.getSeconds() + "." + text;
+        while (text.length < 17) {
+            text = "0" + text;
+        }
+        text = date.getMinutes() + ":" + text;
+        while (text.length < 20) {
+            text = "0" + text;
+        }
+        text = date.getHours() + ":" + text;
+        while (text.length < 23) {
+            text = "0" + text;
+        }
+        return text;
     },
     showGeneric: function (id, text, value) {
         var formatted = app.formatDecimal(value, 16 - (text.length - 7));
@@ -73,115 +105,145 @@ var app = {
             document.getElementById(id + "-tr").style.display = "none";
         }
     },
-    showDiffMiliSeconds: function (date) {
-        var diff = (date[0] * 31536000000) + (date[1] * 2628000000) + (date[2] * 86400000) + (date[3] * 3600000) + (date[4] * 60000) + (date[5] * 1000) + date[6];
-        app.showGeneric("miliseconds", " Milisegundos", diff);
+    showDiff: function () {
+        let parts = [
+            app.now.getHours() - app.moment.getHours(),
+            app.now.getMinutes() - app.moment.getMinutes(),
+            app.now.getSeconds() - app.moment.getSeconds(),
+            app.now.getMilliseconds() - app.moment.getMilliseconds(),
+            app.now.getDate() - app.moment.getDate(),
+            app.now.getMonth() - app.moment.getMonth(),
+            app.now.getFullYear() - app.moment.getFullYear()
+        ];
+        while (parts[3] < 0) {
+            parts[3] = parts[3] + 1000;
+            parts[2] = parts[2] - 1;
+        }
+        while (parts[2] < 0) {
+            parts[2] = parts[2] + 60;
+            parts[1] = parts[1] - 1;
+        }
+        while (parts[1] < 0) {
+            parts[1] = parts[1] + 60;
+            parts[0] = parts[0] - 1;
+        }
+        while (parts[0] < 0) {
+            parts[0] = parts[0] + 24;
+            parts[4] = parts[4] - 1;
+        }
+        while (parts[4] < 0) {
+            parts[4] = parts[4] + 30;
+            parts[5] = parts[5] - 1;
+        }
+        while (parts[5] < 0) {
+            parts[5] = parts[5] + 12;
+            parts[6] = parts[6] - 1;
+        }
+        let text = "" + parts[6];
+        while (text.length < 4) {
+            text = "0" + text;
+        }
+        text = parts[5] + "/" + text;
+        while (text.length < 7) {
+            text = "0" + text;
+        }
+        text = parts[4] + "/" + text;
+        while (text.length < 10) {
+            text = "0" + text;
+        }
+        text = parts[3] + " " + text;
+        while (text.length < 14) {
+            text = "0" + text;
+        }
+        text = parts[2] + "." + text;
+        while (text.length < 17) {
+            text = "0" + text;
+        }
+        text = parts[1] + ":" + text;
+        while (text.length < 20) {
+            text = "0" + text;
+        }
+        text = parts[0] + ":" + text;
+        while (text.length < 23) {
+            text = "0" + text;
+        }
+        document.getElementById("diff-datetime").innerHTML = text;
     },
-    showDiffSeconds: function (date) {
-        var diff = (date[0] * 31536000) + (date[1] * 2628000) + (date[2] * 86400) + (date[3] * 3600) + (date[4] * 60) + date[5] + (date[6] * 0.001);
-        app.showGeneric("seconds", " Segundos", diff);
+    showDiffMiliSeconds: function () {
+        app.showGeneric("miliseconds", " Milisegundos", app.diff);
     },
-    showDiffMinutes: function (date) {
-        var diff = (date[0] * 525600) + (date[1] * 43800) + (date[2] * 1440) + (date[3] * 60) + date[4] + (date[5] * 0.0166666666666667) + (date[6] * 0.0000166666666667);
-        app.showGeneric("minutes", " Minutos", diff);
+    showDiffSeconds: function () {
+        app.showGeneric("seconds", " Segundos", app.diff / 1000);
     },
-    showDiffHours: function (date) {
-        var diff = (date[0] * 8760) + (date[1] * 730) + (date[2] * 24) + date[3] + (date[4] * 0.0166666666666667) + (date[5] * 0.0002777777777778) + (date[6] * 0.0000002777777778);
-        app.showGeneric("hours", " Horas", diff);
+    showDiffMinutes: function () {
+        app.showGeneric("minutes", " Minutos", app.diff / (1000 * 60));
     },
-    showDiffDays: function (date) {
-        var diff = (date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740);
-        app.showGeneric("days", " Dias", diff);
+    showDiffHours: function () {
+        app.showGeneric("hours", " Horas", app.diff / (1000 * 60 * 60));
     },
-    showDiffWeeks: function (date) {
-        var diff = ((date[0] * 365) + (date[1] * 30.416666666666667) + date[2] + (date[3] * 0.0416666666666667) + (date[4] * 0.0006944444444444) + (date[5] * 0.0000115740740740) + (date[6] * 0.0000000115740740)) / 7;
-        app.showGeneric("weeks", " Semanas", diff);
+    showDiffDays: function () {
+        app.showGeneric("days", " Dias", app.diff / (1000 * 60 * 60 * 24));
     },
-    showDiffMonths: function (date) {
-        var diff = (date[0] * 12) + date[1] + (date[2] * 0.0328767123287671) + (date[3] * 0.0013698630136986) + (date[4] * 0.0000228310502283) + (date[5] * 0.0000003805175038) + (date[6] * 0.0000000003805175);
-        app.showGeneric("months", " Meses", diff);
+    showDiffWeeks: function () {
+        app.showGeneric("weeks", " Semanas", app.diff / (1000 * 60 * 60 * 24 * 7));
     },
-    showDiffYears: function (date) {
-        var diff = date[0] + (date[1] * 0.0833333333333333) + (date[2] * 0.0027397260273973) + (date[3] * 0.0001141552511415) + (date[4] * 0.0000019025875190) + (date[5] * 0.0000000317097919) + (date[6] * 0.0000000000317097);
-        app.showGeneric("years", " Anos", diff);
+    showDiffMonths: function () {
+        app.showGeneric("months", " Meses", app.diff / (1000 * 60 * 60 * 24 * (365 / 12)));
     },
-    execution: function (date) {
+    showDiffYears: function () {
+        app.showGeneric("years", " Anos", app.diff / (1000 * 60 * 60 * 24 * 365));
+    },
+    execution: function () {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
         document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
-        if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] > 0 || date[4] >= 20) && (document.getElementById("info1").className == "red")) {
+        app.showDiff();
+        if ((document.getElementById("info1").className === "red") && ((app.diff / (1000 * 60)) > 20)) {
             document.getElementById("info1").className = "green";
         }
-        if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 2) && (document.getElementById("info2").className == "red")) {
+        if ((document.getElementById("info2").className === "red") && ((app.diff / (1000 * 60 * 60)) > 2)) {
             document.getElementById("info2").className = "green";
         }
-        if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 8) && (document.getElementById("info3").className == "red")) {
+        if ((document.getElementById("info3").className === "red") && ((app.diff / (1000 * 60 * 60)) > 8)) {
             document.getElementById("info3").className = "green";
         }
-        if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 12) && (document.getElementById("info4").className == "red")) {
+        if ((document.getElementById("info4").className === "red") && ((app.diff / (1000 * 60 * 60)) > 12)) {
             document.getElementById("info4").className = "yellow";
         }
-        if ((date[0] > 0 || date[1] > 0 || date[2] > 0 || date[3] >= 24) && (document.getElementById("info4").className == "yellow")) {
+        if ((document.getElementById("info4").className === "yellow") && ((app.diff / (1000 * 60 * 60)) > 24)) {
             document.getElementById("info4").className = "green";
         }
-        if ((date[0] > 0 || date[1] > 0 || date[2] >= 2) && (document.getElementById("info5").className == "red")) {
+        if ((document.getElementById("info5").className === "red") && ((app.diff / (1000 * 60 * 60 * 24)) > 2)) {
             document.getElementById("info5").className = "green";
         }
-        if ((date[0] > 0 || date[1] > 0 || date[2] >= 21) && (document.getElementById("info6").className == "red")) {
+        if ((document.getElementById("info6").className === "red") && ((app.diff / (1000 * 60 * 60 * 24)) > 21)) {
             document.getElementById("info6").className = "green";
         }
-        if ((date[0] >= 1) && (document.getElementById("info7").className == "red")) {
+        if ((document.getElementById("info7").className === "red") && ((app.diff / (1000 * 60 * 60 * 24 * 365)) > 1)) {
             document.getElementById("info7").className = "green";
         }
-        if ((date[0] >= 10) && (document.getElementById("info8").className == "red")) {
+        if ((document.getElementById("info8").className === "red") && ((app.diff / (1000 * 60 * 60 * 24 * 365)) > 10)) {
             document.getElementById("info8").className = "green";
         }
-        if ((date[0] >= 15) && (document.getElementById("info9").className == "red")) {
+        if ((document.getElementById("info9").className === "red") && ((app.diff / (1000 * 60 * 60 * 24 * 365)) > 15)) {
             document.getElementById("info9").className = "green";
         }
-        app.showDiffMiliSeconds(date);
-        app.showDiffSeconds(date);
-        app.showDiffMinutes(date);
-        app.showDiffHours(date);
-        app.showDiffDays(date);
-        app.showDiffWeeks(date);
-        app.showDiffMonths(date);
-        app.showDiffYears(date);
+        app.showDiffMiliSeconds();
+        app.showDiffSeconds();
+        app.showDiffMinutes();
+        app.showDiffHours();
+        app.showDiffDays();
+        app.showDiffWeeks();
+        app.showDiffMonths();
+        app.showDiffYears();
     },
     calcule: function () {
-        var now = new Date();
-        app.now = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds()];
+        app.now = new Date();
         if (showNow) {
-            textNow = app.now[6] + "";
-            while (textNow.length < 3) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[5] + "." + textNow;
-            while (textNow.length < 6) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[4] + ":" + textNow;
-            while (textNow.length < 9) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[3] + ":" + textNow;
-            while (textNow.length < 12) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[2] + " " + textNow;
-            while (textNow.length < 15) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[1] + "-" + textNow;
-            while (textNow.length < 18) {
-                textNow = "0" + textNow;
-            }
-            textNow = app.now[0] + "-" + textNow;
-            document.getElementById("myInput").value = textNow;
+            document.getElementById("myInput").value = app.formatDateTime(app.now);
             showNow = false;
         }
-        var diff = app.getDiffArray();
-        document.getElementById("diff-datetime").innerHTML = app.formatDateTime(diff);
-        app.execution(diff);
+        app.diff = app.now.getTime() - app.moment.getTime();
+        app.execution();
         setTimeout(app.calcule, 1);
     },
     getDiffArray: function () {
@@ -230,7 +292,6 @@ var app = {
 };
 function myFunction() {
     var copyText = document.getElementById("myInput");
-    copyText.value = textNow;
     copyText.select();
     document.execCommand("copy");
     alert("Copied the text: " + copyText.value);
