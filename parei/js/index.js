@@ -81,23 +81,22 @@ var app = {
         while (text.length < 14) {
             text = "0" + text;
         }
-        text = text.substring(0, 2) + text.substring(3);
         text = date.getSeconds() + "." + text;
-        while (text.length < 16) {
+        while (text.length < 17) {
             text = "0" + text;
         }
         text = date.getMinutes() + ":" + text;
-        while (text.length < 19) {
+        while (text.length < 20) {
             text = "0" + text;
         }
         text = date.getHours() + ":" + text;
-        while (text.length < 22) {
+        while (text.length < 23) {
             text = "0" + text;
         }
         return text;
     },
     showGeneric: function (id, text, value) {
-        var formatted = app.formatDecimal(value, (16 - 1) - (text.length - 7));
+        var formatted = app.formatDecimal(value, 16 - (text.length - 7));
         if (formatted) {
             document.getElementById(id).innerHTML = formatted + text;
         } else {
@@ -154,17 +153,16 @@ var app = {
         while (text.length < 14) {
             text = "0" + text;
         }
-        text = text.substring(0, 2) + text.substring(3);
         text = parts[2] + "." + text;
-        while (text.length < 16) {
+        while (text.length < 17) {
             text = "0" + text;
         }
         text = parts[1] + ":" + text;
-        while (text.length < 19) {
+        while (text.length < 20) {
             text = "0" + text;
         }
         text = parts[0] + ":" + text;
-        while (text.length < 22) {
+        while (text.length < 23) {
             text = "0" + text;
         }
         document.getElementById("diff-datetime").innerHTML = text;
@@ -197,6 +195,9 @@ var app = {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
         document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
         app.showDiff();
+        if ((document.getElementById("info1").className === "red") && ((app.diff / (1000 * 60)) > 20)) {
+            document.getElementById("info1").className = "green";
+        }
         if ((document.getElementById("info2").className === "red") && ((app.diff / (1000 * 60 * 60)) > 2)) {
             document.getElementById("info2").className = "green";
         }
