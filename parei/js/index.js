@@ -2,12 +2,12 @@ var showNow = true;
 var textNow = "";
 var app = {
     initialize: function () {
-        // 11:49:16.917 01/01/2024
-        app.moment.setHours(11);
-        app.moment.setMinutes(49);
-        app.moment.setSeconds(16);
-        app.moment.setMilliseconds(917);
-        app.moment.setDate(1);
+        // 18:19:03.293 21/01/2024
+        app.moment.setHours(18);
+        app.moment.setMinutes(19);
+        app.moment.setSeconds(3);
+        app.moment.setMilliseconds(293);
+        app.moment.setDate(21);
         app.moment.setMonth(1 - 1);
         app.moment.setFullYear(2024);
         app.calcule();
