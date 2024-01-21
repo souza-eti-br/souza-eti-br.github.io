@@ -1,3 +1,5 @@
+var showNow = true;
+var textNow = "";
 var app = {
     initialize: function () {
         // 11:49:16.917 01/01/2024
@@ -236,9 +238,19 @@ var app = {
     },
     calcule: function () {
         app.now = new Date();
+        if (showNow) {
+            document.getElementById("myInput").value = app.formatDateTime(app.now);
+            showNow = false;
+        }
         app.diff = app.now.getTime() - app.moment.getTime();
         app.execution();
         setTimeout(app.calcule, 1);
     }
 };
+function myFunction() {
+    var copyText = document.getElementById("myInput");
+    copyText.select();
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+}
 app.initialize();
