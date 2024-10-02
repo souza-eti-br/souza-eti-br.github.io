@@ -1,3 +1,4 @@
+var showNow = true;
 var textNow = "";
 var app = {
     initialize: function () {
@@ -237,6 +238,10 @@ var app = {
     },
     calcule: function () {
         app.now = new Date();
+        if (showNow) {
+            document.getElementById("myInput").value = app.formatDateTime(app.now);
+            showNow = false;
+        }
         app.diff = app.now.getTime() - app.moment.getTime();
         app.execution();
         setTimeout(app.calcule, 1);
