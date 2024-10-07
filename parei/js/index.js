@@ -1,14 +1,13 @@
-var showNow = true;
 var textNow = "";
 var app = {
     initialize: function () {
-        // 2024-09-08T16:43:38.254
-        app.moment.setHours(16);
-        app.moment.setMinutes(43);
-        app.moment.setSeconds(38);
-        app.moment.setMilliseconds(254);
-        app.moment.setDate(8);
-        app.moment.setMonth(9 - 1);
+        // 01:03:56.390 07/10/2024
+        app.moment.setHours(1);
+        app.moment.setMinutes(3);
+        app.moment.setSeconds(56);
+        app.moment.setMilliseconds(390);
+        app.moment.setDate(7);
+        app.moment.setMonth(10 - 1);
         app.moment.setFullYear(2024);
         app.calcule();
     },
@@ -238,10 +237,6 @@ var app = {
     },
     calcule: function () {
         app.now = new Date();
-        if (showNow) {
-            document.getElementById("myInput").value = app.formatDateTime(app.now);
-            showNow = false;
-        }
         app.diff = app.now.getTime() - app.moment.getTime();
         app.execution();
         setTimeout(app.calcule, 1);
