@@ -1,13 +1,13 @@
 var textNow = "";
 var app = {
     initialize: function () {
-        // 01:03:56.390 07/10/2024
+        // 2024-11-26 01:05:58.765
         app.moment.setHours(1);
-        app.moment.setMinutes(3);
-        app.moment.setSeconds(56);
-        app.moment.setMilliseconds(390);
-        app.moment.setDate(7);
-        app.moment.setMonth(10 - 1);
+        app.moment.setMinutes(5);
+        app.moment.setSeconds(58);
+        app.moment.setMilliseconds(765);
+        app.moment.setDate(26);
+        app.moment.setMonth(11 - 1);
         app.moment.setFullYear(2024);
         app.calcule();
     },
