@@ -1,13 +1,12 @@
-var textNow = "";
 var app = {
     initialize: function () {
-        // 2024-11-26 01:05:58.765
-        app.moment.setHours(1);
-        app.moment.setMinutes(5);
-        app.moment.setSeconds(58);
-        app.moment.setMilliseconds(765);
-        app.moment.setDate(26);
-        app.moment.setMonth(11 - 1);
+        // 2024-12-29 19:24:33.812
+        app.moment.setHours(19);
+        app.moment.setMinutes(24);
+        app.moment.setSeconds(33);
+        app.moment.setMilliseconds(812);
+        app.moment.setDate(29);
+        app.moment.setMonth(11);
         app.moment.setFullYear(2024);
         app.calcule();
     },
@@ -242,10 +241,4 @@ var app = {
         setTimeout(app.calcule, 1);
     }
 };
-function myFunction() {
-    var copyText = document.getElementById("myInput");
-    copyText.select();
-    document.execCommand("copy");
-    alert("Copied the text: " + copyText.value);
-}
 app.initialize();
