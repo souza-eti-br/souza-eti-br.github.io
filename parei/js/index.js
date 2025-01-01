@@ -1,11 +1,11 @@
 var app = {
     initialize: function () {
-        // 2024-12-29 19:24:33.812
-        app.moment.setHours(19);
-        app.moment.setMinutes(24);
-        app.moment.setSeconds(33);
-        app.moment.setMilliseconds(812);
-        app.moment.setDate(29);
+        // 2024-12-31 23:56:59.581
+        app.moment.setHours(23);
+        app.moment.setMinutes(56);
+        app.moment.setSeconds(59);
+        app.moment.setMilliseconds(581);
+        app.moment.setDate(31);
         app.moment.setMonth(11);
         app.moment.setFullYear(2024);
         app.calcule();
@@ -195,6 +195,12 @@ var app = {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
         document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
         app.showDiff();
+        if ((document.getElementById("info1").className === "red") && ((app.diff / (1000 * 60)) > 20)) {
+            document.getElementById("info1").className = "green";
+        }
+        if ((document.getElementById("info2").className === "red") && ((app.diff / (1000 * 60 * 60)) > 2)) {
+            document.getElementById("info2").className = "green";
+        }
         if ((document.getElementById("info3").className === "red") && ((app.diff / (1000 * 60 * 60)) > 8)) {
             document.getElementById("info3").className = "green";
         }
