@@ -1,3 +1,5 @@
+var showNow = true;
+var textNow = "";
 var app = {
     initialize: function () {
         // 2024-12-31 23:56:59.581
@@ -190,6 +192,15 @@ var app = {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
         document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
         app.showDiff();
+        if ((document.getElementById("info1").className === "red") && ((app.diff / (1000 * 60)) > 20)) {
+            document.getElementById("info1").className = "green";
+        }
+        if ((document.getElementById("info2").className === "red") && ((app.diff / (1000 * 60 * 60)) > 2)) {
+            document.getElementById("info2").className = "green";
+        }
+        if ((document.getElementById("info3").className === "red") && ((app.diff / (1000 * 60 * 60)) > 8)) {
+            document.getElementById("info3").className = "green";
+        }
         if ((document.getElementById("info4").className === "red") && ((app.diff / (1000 * 60 * 60)) > 12)) {
             document.getElementById("info4").className = "yellow";
         }
@@ -222,9 +233,19 @@ var app = {
     },
     calcule: function () {
         app.now = new Date();
+        if (showNow) {
+            document.getElementById("myInput").value = app.formatDateTime(app.now);
+            showNow = false;
+        }
         app.diff = app.now.getTime() - app.moment.getTime();
         app.execution();
         setTimeout(app.calcule, 1);
     }
 };
+function myFunction() {
+    var copyText = document.getElementById("myInput");
+    copyText.select();
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+}
 app.initialize();
