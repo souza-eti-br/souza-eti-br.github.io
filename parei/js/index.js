@@ -190,9 +190,6 @@ var app = {
         document.getElementById("now-datetime").innerHTML = app.formatDateTime(app.now);
         document.getElementById("since-datetime").innerHTML = app.formatDateTime(app.moment);
         app.showDiff();
-        if ((document.getElementById("info3").className === "red") && ((app.diff / (1000 * 60 * 60)) > 8)) {
-            document.getElementById("info3").className = "green";
-        }
         if ((document.getElementById("info4").className === "red") && ((app.diff / (1000 * 60 * 60)) > 12)) {
             document.getElementById("info4").className = "yellow";
         }
