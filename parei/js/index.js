@@ -104,64 +104,59 @@ var app = {
         }
     },
     showDiff: function () {
-        let parts = [
-            app.now.getHours() - app.moment.getHours(),
-            app.now.getMinutes() - app.moment.getMinutes(),
-            app.now.getSeconds() - app.moment.getSeconds(),
-            app.now.getMilliseconds() - app.moment.getMilliseconds(),
-            app.now.getDate() - app.moment.getDate(),
-            app.now.getMonth() - app.moment.getMonth(),
-            app.now.getFullYear() - app.moment.getFullYear()
-        ];
-        while (parts[3] < 0) {
-            parts[3] = parts[3] + 1000;
-            parts[2] = parts[2] - 1;
-        }
-        while (parts[2] < 0) {
-            parts[2] = parts[2] + 60;
-            parts[1] = parts[1] - 1;
-        }
-        while (parts[1] < 0) {
-            parts[1] = parts[1] + 60;
-            parts[0] = parts[0] - 1;
-        }
-        while (parts[0] < 0) {
-            parts[0] = parts[0] + 24;
-            parts[4] = parts[4] - 1;
-        }
-        while (parts[4] < 0) {
-            parts[4] = parts[4] + 31;
-            parts[5] = parts[5] - 1;
-        }
-        while (parts[5] < 0) {
-            parts[5] = parts[5] + 12;
-            parts[6] = parts[6] - 1;
-        }
-        let text = "" + parts[6];
+        let num = Math.floor(app.diff / (1000 * 60 * 60 * 24 * 365));
+        let text = "" + num;
         while (text.length < 4) {
             text = "0" + text;
         }
-        text = parts[5] + "/" + text;
+        num = Math.floor(app.diff / (1000 * 60 * 60 * 24 * (365 / 12)));
+        while (num > 12) {
+            num = num - 12;
+        }
+        text = num + "/" + text;
         while (text.length < 7) {
             text = "0" + text;
         }
-        text = parts[4] + "/" + text;
+        num = Math.floor(app.diff / (1000 * 60 * 60 * 24));
+        while (num > 365) {
+            num = num - 365;
+        }
+        while (num > 30) {
+            num = num - 30;
+        }
+        text = num + "/" + text;
         while (text.length < 10) {
             text = "0" + text;
         }
-        text = parts[3] + " " + text;
+        num = Math.floor(app.diff);
+        while (num > 1000) {
+            num = num - 1000;
+        }
+        text = num + " " + text;
         while (text.length < 14) {
             text = "0" + text;
         }
-        text = parts[2] + "." + text;
+        num = Math.floor(app.diff / (1000));
+        while (num > 60) {
+            num = num - 60;
+        }
+        text = num + "." + text;
         while (text.length < 17) {
             text = "0" + text;
         }
-        text = parts[1] + ":" + text;
+        num = Math.floor(app.diff / (1000 * 60));
+        while (num > 60) {
+            num = num - 60;
+        }
+        text = num + ":" + text;
         while (text.length < 20) {
             text = "0" + text;
         }
-        text = parts[0] + ":" + text;
+        num = Math.floor(app.diff / (1000 * 60 * 60));
+        while (num > 60) {
+            num = num - 60;
+        }
+        text = num + ":" + text;
         while (text.length < 23) {
             text = "0" + text;
         }
