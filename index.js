@@ -1,4 +1,4 @@
-var messages = {
+const messages = {
     pt: {
         "developed.by": "Desenvolvido por:&nbsp;",
         "language": "Português",
@@ -17,8 +17,8 @@ var messages = {
     }
 };
 function setLanguage(language) {
-    $("#select-language").html(this.messages[language]["language"]);
-    $("#welcome").html(this.messages[language]["welcome"]);
-    $("#welcome-text").html(this.messages[language]["welcome.text"]);
-    $("#developed-by").html(this.messages[language]["developed.by"]);
+    document.getElementById("select-language").innerHTML = messages[language]["language"];
+    document.getElementById("welcome").innerHTML = messages[language]["welcome"];
+    document.getElementById("welcome-text").innerHTML = messages[language]["welcome.text"];
+    document.getElementById("developed-by").innerHTML = messages[language]["developed.by"];
 }
