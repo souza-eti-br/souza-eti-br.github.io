@@ -16,9 +16,10 @@ const messages = {
         "welcome.text": "This page is for personal use. Below you can access my LinkedIn. :)"
     }
 };
+
 function setLanguage(language) {
-    document.getElementById("select-language").innerHTML = messages[language]["language"];
-    document.getElementById("welcome").innerHTML = messages[language]["welcome"];
-    document.getElementById("welcome-text").innerHTML = messages[language]["welcome.text"];
-    document.getElementById("developed-by").innerHTML = messages[language]["developed.by"];
+    let elements = document.querySelectorAll("[i18n]");
+    for (let element of elements) {
+        element.innerHTML = messages[language][element.getAttribute("i18n")];
+    }
 }
