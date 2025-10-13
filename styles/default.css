@@ -75,6 +75,12 @@ select {
     padding: 5px;
     background-color: #1A1D20;
     color: #FFC107;
+    border: #FFC107 solid thin;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 input[type="text"] {
@@ -82,6 +88,11 @@ input[type="text"] {
     background-color: #1A1D20;
     color: #FFC107;
     border: #FFC107 solid thin;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 button {
