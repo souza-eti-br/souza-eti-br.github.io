@@ -1,0 +1,118 @@
+body {
+    background-color: #212529;
+    font-family: sans-serif;
+}
+
+header {
+    z-index: 1000;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: #1A1D20;
+    opacity: 0.75;
+    color: #FFFFFF;
+}
+
+header figure {
+    float: left;
+    display: inline-block;
+    margin: 10px 10px 6px 10px;
+    vertical-align: middle;
+}
+
+header nav {
+    display: inline-block;
+    padding: 15px 10px 15px 15px;
+}
+
+header nav a {
+    padding: 8px;
+    color: #FFC107;
+    text-decoration: none;
+}
+
+header nav a:hover {
+    background-color: #212529;
+}
+
+header div {
+    float: right;
+    margin: 10px;
+}
+
+header div button {
+    margin-right: 10px;
+}
+
+main {
+    margin: 70px 20px 50px 20px;
+    color: #FFFFFF;
+}
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: #1A1D20;
+    opacity: 0.75;
+    color: #FFFFFF;
+    text-align: right;
+    padding: 5px;
+}
+
+a {
+    color: #FFC107;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FFDA6A;
+}
+
+select {
+    padding: 5px;
+    background-color: #1A1D20;
+    color: #FFC107;
+}
+
+input[type="text"] {
+    padding: 6px;
+    background-color: #1A1D20;
+    color: #FFC107;
+    border: #FFC107 solid thin;
+}
+
+button {
+    padding: 6px;
+    background-color: #1A1D20;
+    color: #FFC107;
+    border: #FFC107 solid thin;
+}
+
+button:hover {
+    color: #FFDA6A;
+    border: #FFDA6A solid thin;
+    background-color: #212529;
+}
+
+button.success {
+    color: #198754;
+    border: #198754 solid thin;
+}
+
+button.success:hover {
+    color: #75B798;
+    border: #75B798 solid thin;
+}
+
+button.danger {
+    color: #DC3545;
+    border: #DC3545 solid thin;
+}
+
+button.danger:hover {
+    color: #FF400E;
+    border: #FF400E solid thin;
+}
