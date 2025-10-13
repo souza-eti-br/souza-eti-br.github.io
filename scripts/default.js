@@ -1,5 +1,6 @@
 const messages = {
     pt: {
+        "authentication.failed": "Falha na autenticação!",
         "developed.by": "Desenvolvido por:",
         "games": "Jogos",
         "home": "Início",
@@ -7,10 +8,12 @@ const messages = {
         "page.not.found": "Página não encontrada!",
         "password": "Senha",
         "secrets": "Segredos",
+        "server.offline": "Servidor desligado!",
         "username": "Usuário",
         "welcome": "Bem-vindo!",
         "welcome.text": "Está página é para uso pessoal. Abaixo você pode acessar meu LinkedIn."
     }, es: {
+        "authentication.failed": "¡La autenticación falló!",
         "developed.by": "Desarrollado por:",
         "games": "Juegos",
         "home": "Inicio",
@@ -18,10 +21,12 @@ const messages = {
         "page.not.found": "¡Página no encontrada!",
         "password": "Contraseña",
         "secrets": "Secretos",
+        "server.offline": "¡Servidor apagado!",
         "username": "Usuario",
         "welcome": "¡Bienvenidos!",
         "welcome.text": "Esta página es para uso personal. A continuación puedes acceder a mi LinkedIn."
     }, en: {
+        "authentication.failed": "Authentication failed!",
         "developed.by": "Developed by:",
         "games": "Games",
         "home": "Home",
@@ -29,6 +34,7 @@ const messages = {
         "page.not.found": "Page not found!",
         "password": "Password",
         "secrets": "Secrets",
+        "server.offline": "Server Offline!",
         "username": "Username",
         "welcome": "Welcome!",
         "welcome.text": "This page is for personal use. Below you can access my LinkedIn."
@@ -81,6 +87,10 @@ function logout() {
     }).then(result => {
         reloadAuthorization(result.logged);
         reloadMessages();
+    }).catch(error => {
+        alert(messages[document.getElementById("language-selector").value]["server.offline"]);
+        reloadAuthorization(false);
+        reloadMessages();
     });
 }
 
@@ -99,10 +109,14 @@ function login() {
            return { logged: false };
         }
     }).then(result => {
-        if (result.message) {
-            alert(result.message);
+        if (!result.logged) {
+            alert(messages[document.getElementById("language-selector").value]["authentication.failed"]);
         }
         reloadAuthorization(result.logged);
+        reloadMessages();
+    }).catch(error => {
+        alert(messages[document.getElementById("language-selector").value]["server.offline"]);
+        reloadAuthorization(false);
         reloadMessages();
     });
 }
@@ -118,6 +132,9 @@ function checkAuthorization() {
         }
     }).then(result => {
         reloadAuthorization(result.logged);
+        reloadMessages();
+    }).catch(error => {
+        reloadAuthorization(false);
         reloadMessages();
     });
 }
