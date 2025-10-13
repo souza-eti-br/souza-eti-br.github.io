@@ -28,8 +28,6 @@ header nav {
 
 header nav a {
     padding: 8px;
-    color: #FFC107;
-    text-decoration: none;
 }
 
 header nav a:hover {
@@ -74,8 +72,8 @@ a:hover {
 select {
     padding: 5px;
     background-color: #1A1D20;
-    color: #FFC107;
-    border: #FFC107 solid thin;
+    color: #CCCCCC;
+    border: #CCCCCC solid thin;
 }
 
 select:focus {
@@ -83,14 +81,14 @@ select:focus {
     box-shadow: none;
 }
 
-input[type="text"] {
+input {
     padding: 6px;
     background-color: #1A1D20;
-    color: #FFC107;
-    border: #FFC107 solid thin;
+    color: #CCCCCC;
+    border: #CCCCCC solid thin;
 }
 
-input[type="text"]:focus {
+input:focus {
     outline: none;
     box-shadow: none;
 }
@@ -98,14 +96,24 @@ input[type="text"]:focus {
 button {
     padding: 6px;
     background-color: #1A1D20;
+    color: #CCCCCC;
+    border: #CCCCCC solid thin;
+}
+
+button:hover {
+    color: #DDDDDD;
+    border: #DDDDDD solid thin;
+    background-color: #212529;
+}
+
+button.warning {
     color: #FFC107;
     border: #FFC107 solid thin;
 }
 
-button:hover {
+button.warning:hover {
     color: #FFDA6A;
     border: #FFDA6A solid thin;
-    background-color: #212529;
 }
 
 button.success {
@@ -126,4 +134,8 @@ button.danger {
 button.danger:hover {
     color: #FF400E;
     border: #FF400E solid thin;
+}
+
+.danger {
+    color: #DC3545;
 }

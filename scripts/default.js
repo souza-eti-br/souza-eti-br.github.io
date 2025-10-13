@@ -4,6 +4,7 @@ const messages = {
         "games": "Jogos",
         "home": "Início",
         "investments": "Investimentos",
+        "page.not.found": "Página não encontrada!",
         "password": "Senha",
         "secrets": "Segredos",
         "username": "Usuário",
@@ -14,6 +15,7 @@ const messages = {
         "games": "Juegos",
         "home": "Inicio",
         "investments": "Inversiones",
+        "page.not.found": "¡Página no encontrada!",
         "password": "Contraseña",
         "secrets": "Secretos",
         "username": "Usuario",
@@ -24,6 +26,7 @@ const messages = {
         "games": "Games",
         "home": "Home",
         "investments": "Investments",
+        "page.not.found": "Page not found!",
         "password": "Password",
         "secrets": "Secrets",
         "username": "Username",
@@ -32,7 +35,8 @@ const messages = {
     }
 };
 
-function setLanguage(language) {
+function reloadMessages() {
+    let language = document.getElementById("language-selector").value;
     let elements = document.querySelectorAll("[i18n]");
     for (let element of elements) {
         element.innerHTML = messages[language][element.getAttribute("i18n")];
@@ -41,10 +45,14 @@ function setLanguage(language) {
     for (let element of elements) {
         element.placeholder = messages[language][element.getAttribute("i18n-placeholder")];
     }
+}
+
+function setLanguage(language) {
     document.getElementById("language-selector").value = language;
     if (localStorage) {
         localStorage.setItem("language", language);
     }
+    reloadMessages();
 }
 
 function checkLanguage() {
@@ -61,6 +69,97 @@ function checkLanguage() {
     }
 }
 
+function logout() {
+    fetch("http://localhost:8080/auth", {
+        method: "DELETE"
+    }).then(response => {
+        if (response.ok) {
+           return response.json();
+        } else {
+           return { logged: false };
+        }
+    }).then(result => {
+        reloadAuthorization(result.logged);
+        reloadMessages();
+    });
+}
+
+function login() {
+    fetch("http://localhost:8080/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            username: document.getElementById("login-username").value,
+            password: document.getElementById("login-password").value
+        })
+    }).then(response => {
+        if (response.ok) {
+           return response.json();
+        } else {
+           return { logged: false };
+        }
+    }).then(result => {
+        if (result.message) {
+            alert(result.message);
+        }
+        reloadAuthorization(result.logged);
+        reloadMessages();
+    });
+}
+
+function checkAuthorization() {
+    fetch("http://localhost:8080/auth", {
+        method: "GET"
+    }).then(response => {
+        if (response.ok) {
+           return response.json();
+        } else {
+           return { logged: false };
+        }
+    }).then(result => {
+        reloadAuthorization(result.logged);
+        reloadMessages();
+    });
+}
+
+function reloadAuthorization(logged) {
+    let elements = document.querySelectorAll("[authenticate]");
+    for (let element of elements) {
+        let authenticate = (element.getAttribute("authenticate").toLowerCase() === "true");
+        if (logged === authenticate) {
+            element.style.display = "";
+        } else {
+            element.style.display = "none";
+        }
+    }
+}
+
+function setPage(page) {
+    fetch("pages/" + page + ".html").then(response => {
+        if (response.ok) {
+           return response.text();
+        } else {
+           return "<div style='text-align: center;'><h1 class='danger' i18n='page.not.found'>Página não encontrada!</h1></div>";
+        }
+    }).then(html => {
+        document.getElementsByTagName('main')[0].innerHTML = html;
+        checkAuthorization();
+    });
+}
+
+function checkLocation() {
+    var page = location.hash;
+    if (page && page.startsWith("#") && page.length > 1) {
+        page = page.substring(1);
+    } else {
+        page = "home";
+    }
+    setPage(page);
+}
+
 window.onload = () => {
+    window.addEventListener("hashchange", checkLocation);
+    checkLocation();
     checkLanguage();
+    checkAuthorization();
 };
