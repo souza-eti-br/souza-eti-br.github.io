@@ -1,5 +1,3 @@
-//const AppDatabase = {};
-
 window.onhashchange = () => {
     Pages.checkHash();
 };
