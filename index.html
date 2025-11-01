@@ -6,34 +6,85 @@
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
         <meta name="description" content="Souza.eti.br"/>
         <meta name="author" content="Alan Moraes Souza"/>
-        <link type="image/png" rel="shortcut icon" href="favicon.png"/>
+        <link type="image/png" rel="shortcut icon" href="images/favicon.png"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="index.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+        <script src="scripts/i18n.js"></script>
+        <script src="scripts/pages.js"></script>
+        <script src="scripts/index.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-dark-subtle fixed-top opacity-75">
             <div class="container-fluid">
-                <span><img alt="Souza.eti.br" src="favicon.png" height="28" width="28">&nbsp;&nbsp;Souza.eti.br</span>
-                <div>
+                <a class="navbar-brand" href="https://www.souza.eti.br/"><img alt="Souza.eti.br" src="images/favicon.png" height="28" width="28"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarContent" aria-controls="mainNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a page="home" class="nav-link" aria-current="page" href="#home">
+                                <i class="bi bi-house"></i>
+                                <span i18n="home">Home</span>
+                            </a>
+                        </li>
+                        <li need-database="true" class="nav-item dropdown d-none">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-handbag"></i>
+                                <span i18n="finances">Finanças</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" page="bills" href="#bills">
+                                        <i class="bi bi-cart"></i>
+                                        <span i18n="bills">Contas</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" page="investiments" href="#investiments">
+                                        <i class="bi bi-graph-up"></i>
+                                        <span i18n="investiments">Investimentos</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li need-database="true" class="nav-item d-none">
+                            <a page="secrets" class="nav-link" href="#secrets">
+                                <i class="bi bi-key"></i>
+                                <span i18n="secrets">Segredos</span>
+                            </a>
+                        </li>
+                        <li need-database="true" class="nav-item d-none">
+                            <a page="games" class="nav-link" href="#games">
+                                <i class="bi bi-controller"></i>
+                                <span i18n="games">Jogos</span>
+                            </a>
+                        </li>
+                        <li need-database="true" class="nav-item d-none">
+                            <a page="lottery" class="nav-link" href="#lottery">
+                                <i class="bi bi-trophy"></i>
+                                <span i18n="lottery">Loteria</span>
+                            </a>
+                        </li>
+                    </ul>
                     <div class="nav-item dropdown">
                         <a i18n="language" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Português</a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="javascript:setLanguage('en');">English</a></li>
-                            <li><a class="dropdown-item" href="javascript:setLanguage('es');">Español</a></li>
-                            <li><a class="dropdown-item" href="javascript:setLanguage('pt');">Português</a></li>
+                            <li><a href="javascript:I18n.setLanguage('en');" class="dropdown-item">English</a></li>
+                            <li><a href="javascript:I18n.setLanguage('es');" class="dropdown-item">Español</a></li>
+                            <li><a href="javascript:I18n.setLanguage('pt');" class="dropdown-item">Português</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </nav>
-        <div class="pt-5">
-            <div class="container-fluid mt-5 mb-5">
-                <div class="container-fluid text-center p-2">
-                    <h1 i18n="welcome">Bem-vindo!</h1><br/>
-                    <span i18n="welcome.text">Está página é para uso pessoal. Abaixo você pode acessar meu LinkedIn.</span> :)<br/><br/>
-                    <a class="text-warning text-decoration-none" target="_blank" href="https://www.linkedin.com/in/alanmsouza/">https://www.linkedin.com/in/alanmsouza/</a>
-                </div>
+        <div id="main-content" class="container-fluid mt-5 mb-5 pt-5">
+            <div class="container-fluid text-center p-2">
+                <h1 i18n="welcome">Bem-vindo!</h1><br/>
+                <span i18n="welcome.text">Está página é para uso pessoal. Abaixo você pode acessar meu LinkedIn.</span> :)<br/><br/>
+                <a class="text-warning text-decoration-none" target="_blank" href="https://www.linkedin.com/in/alanmsouza/">https://www.linkedin.com/in/alanmsouza/</a>
             </div>
         </div>
         <div class="container-fluid fixed-bottom bg-dark-subtle opacity-75 text-end">
