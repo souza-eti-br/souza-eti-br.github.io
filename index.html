@@ -80,12 +80,8 @@
                 </div>
             </div>
         </nav>
-        <div id="main-content" class="container-fluid mt-5 mb-5 pt-5">
-            <div class="container-fluid text-center p-2">
-                <h1 i18n="welcome">Bem-vindo!</h1><br/>
-                <span i18n="welcome.text">Está página é para uso pessoal. Abaixo você pode acessar meu LinkedIn.</span> :)<br/><br/>
-                <a class="text-warning text-decoration-none" target="_blank" href="https://www.linkedin.com/in/alanmsouza/">https://www.linkedin.com/in/alanmsouza/</a>
-            </div>
+        <div style="position: absolute; top: 56px; bottom: 24px; left: 0px; right: 0px;">
+            <iframe onload="I18n.checkLanguage();" width="100%" height="100%" id="main-content" src="pages/home.html"></iframe>
         </div>
         <div class="container-fluid fixed-bottom bg-dark-subtle opacity-75 text-end">
             <span i18n="developed.by">Desenvolvido por:</span>

@@ -46,6 +46,10 @@ const I18n = {
         for (let element of elements) {
             element.innerHTML = I18n.messages[language][element.getAttribute("i18n")];
         }
+        elements = document.getElementById("main-content").contentDocument.querySelectorAll("[i18n]");
+        for (let element of elements) {
+            element.innerHTML = I18n.messages[language][element.getAttribute("i18n")];
+        }
         if (localStorage) {
             localStorage.setItem("language", language);
         }
